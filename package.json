@@ -1,0 +1,19 @@
+{
+	"name": "empathic",
+	"version": "0.0.0",
+	"repository": "lukeed/empathic",
+	"description": "A set of small utilities to understand your Node.js pathing needs",
+	"license": "MIT",
+	"author": {
+		"name": "Luke Edwards",
+		"email": "luke.edwards05@gmail.com",
+		"url": "https://lukeed.com"
+	},
+	"files": ["*.json"],
+	"exports": {
+		"./package.json": "./package.json"
+	},
+	"engines": {
+		"node": ">=18"
+	}
+}
