@@ -9,6 +9,7 @@
 				"no-var",
 				"prefer-const",
 				"no-cond-assign",
+				"no-extra-boolean-cast",
 				"no-inner-declarations"
 			]
 		}

@@ -4,7 +4,7 @@ import * as fs from 'node:fs/promises';
 
 import { absolute } from './resolve.ts';
 import * as walk from './walk.ts';
-import { ok } from './access.ts';
+// import { ok } from './access.ts';
 
 export type Options = {
 	cwd?: string;
@@ -61,11 +61,11 @@ export function one(name: string, options?: Options) {
 	}
 }
 
-function exists(path: string) {
-	return ok(path).then((bool) => {
-		return bool ? path : Promise.reject();
-	});
-}
+// function exists(path: string) {
+// 	return ok(path).then((bool) => {
+// 		return bool ? path : Promise.reject();
+// 	});
+// }
 
 // export async function any(names: string[], options?: Options) {
 // 	let root = options && options.cwd || '';

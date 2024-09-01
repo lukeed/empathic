@@ -1,48 +1,105 @@
 import * as walk from './walk.ts';
+import { isAbsolute, resolve, sep } from 'node:path';
 
-let start = '.';
-let exclude = [/\.tsx$/];
+// let start = '.';
+// let start = resolve('fixtures/a/b/c/d/e/f/g/h/i/j/start.txt');
+let start = 'fixtures/a/b/c/d/e/f/g/h/i/j/start.txt';
 
-Deno.bench({
-	group: 'raw',
-	name: 'escalade',
-	async fn() {
-		let total = 0;
-		await walk.escalade(start, (_, items) => {
-			total += items.length;
-		});
-	},
+Deno.bench('walk.up', () => {
+	let total = 0;
+	// let items = walk.up(start);
+	// console.log('> items', items);
+	for (let _ of walk.up(start)) {
+		total += 1;
+	}
 });
 
-Deno.bench({
-	group: 'raw',
-	name: 'walk.up',
-	async fn() {
-		let total = 0;
-		for await (let tree of walk.up(start)) {
-			total += tree.items.length;
+Deno.bench('walk.options', () => {
+	let total = 0;
+	for (let _ of walk.options(start, { limit: '/' })) {
+		total += 1;
+	}
+});
+
+Deno.bench('split1', () => {
+	let total = 0;
+	for (let _ of split1(start)) {
+		total += 1;
+	}
+});
+
+Deno.bench('split2', () => {
+	let total = 0;
+	for (let _ of split2(start)) {
+		total += 1;
+	}
+});
+
+Deno.bench('split3', () => {
+	let total = 0;
+	for (let _ of split3(start)) {
+		total += 1;
+	}
+});
+
+Deno.bench('split4', () => {
+	let total = 0;
+	for (let _ of split4(start)) {
+		total += 1;
+	}
+});
+
+function split1(input: string) {
+	let arr = (isAbsolute(input) ? input : resolve(input)).split(sep);
+	let i = 0, len = arr.length, output = Array<string>(len);
+	for (; i < len; i++) {
+		output[i] = arr.slice(0, len - i).join(sep);
+	}
+	return output;
+}
+
+function split2(input: string) {
+	let output: string[] = [];
+	let base = isAbsolute(input) ? input : resolve(input);
+
+	let match: RegExpExecArray | null;
+	let rgx = new RegExp('[' + sep + ']+', 'g');
+
+	while (match = rgx.exec(base)) {
+		output.push(
+			base.slice(0, match.index) || '/',
+		);
+	}
+
+	return output.reverse();
+}
+
+function split3(input: string) {
+	let base = isAbsolute(input) ? input : resolve(input);
+	let len = base.length, output: string[] = [];
+
+	while (len-- > 0) {
+		if (base.charCodeAt(len) === 47) {
+			output.push(
+				base.slice(0, len) || '/',
+			);
 		}
-	},
-});
+	}
 
-Deno.bench({
-	group: 'filter',
-	name: 'escalade',
-	async fn() {
-		let total = 0;
-		await walk.escalade(start, (_, items) => {
-			total += items.length;
-		}, exclude);
-	},
-});
+	return output;
+}
 
-Deno.bench({
-	group: 'filter',
-	name: 'walk.up',
-	async fn() {
-		let total = 0;
-		for await (let tree of walk.up(start, { exclude })) {
-			total += tree.items.length;
+function split4(input: string) {
+	let base = isAbsolute(input) ? input : resolve(input);
+	let len = base.length, output: string[] = [];
+
+	while (len-- > 0) {
+		if (base.charAt(len) === sep) {
+			output.push(
+				base.slice(0, len) || sep,
+			);
 		}
-	},
-});
+	}
+
+	return output;
+}
