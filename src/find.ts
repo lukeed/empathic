@@ -2,11 +2,14 @@ import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 import * as fs from 'node:fs/promises';
 
-import { absolute } from './resolve.ts';
 import * as walk from './walk.ts';
+import { absolute } from './resolve.ts';
+import type { Options } from './walk.ts';
 // import { ok } from './access.ts';
 
-export async function up(name: string, options?: walk.Options) {
+export type { Options };
+
+export async function up(name: string, options?: Options) {
 	let { cwd, limit } = options || {};
 
 	let start = absolute(name, cwd);
@@ -23,7 +26,7 @@ export async function up(name: string, options?: walk.Options) {
 	}
 }
 
-export async function options(name: string, options?: walk.Options) {
+export async function options(name: string, options?: Options) {
 	options ||= {};
 	let dir: string, arr: string[];
 	for (dir of walk.options(options.cwd || '', options)) {
@@ -47,7 +50,7 @@ export async function options(name: string, options?: walk.Options) {
 // 	}
 // }
 
-export function one(name: string, options?: walk.Options) {
+export function one(name: string, options?: Options) {
 	let dir: string, tmp: string;
 	let start = options && options.cwd || '';
 	for (dir of walk.options(start, options)) {
