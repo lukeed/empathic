@@ -1,5 +1,8 @@
 {
 	"version": "0.0.0",
+	"tasks": {
+		"fixtures": "deno run -RW scripts/fixtures.ts"
+	},
 	"lint": {
 		"rules": {
 			"exclude": [
