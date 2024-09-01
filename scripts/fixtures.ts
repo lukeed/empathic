@@ -18,9 +18,14 @@ if (!existsSync(start)) {
 		join(start, 'start.txt'),
 	);
 
+	// targets for bench/tests
+
 	await Deno.create(
-		// target bench/tests target
 		join(fixtures, 'a/b/c/d/e/f/file.txt'),
+	);
+
+	await Deno.create(
+		join(fixtures, 'a/b/package.json'),
 	);
 }
 
