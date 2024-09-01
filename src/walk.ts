@@ -7,7 +7,6 @@ export function up(base: string) {
 	let arr: string[] = [];
 
 	while (true) {
-		// console.log('walk', { tmp, prev });
 		arr.push(tmp);
 		tmp = dirname(prev = tmp);
 		if (tmp === prev) return arr;
@@ -29,6 +28,5 @@ export function options(base: string, options?: {
 		arr.push(tmp);
 		tmp = dirname(prev = tmp);
 		if (tmp === (limit || prev)) return arr;
-		// if (limit && tmp === limit || tmp === prev) return output;
 	}
 }
