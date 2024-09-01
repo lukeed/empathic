@@ -13,10 +13,12 @@ export function up(base: string) {
 	}
 }
 
-export function options(base: string, options?: {
+export type Options = {
 	cwd?: string;
 	limit?: string;
-}) {
+};
+
+export function options(base: string, options?: Options) {
 	let { limit, cwd } = options || {};
 
 	let tmp = absolute(base, cwd);
