@@ -37,3 +37,18 @@ jobs:
 
       - name: Report
         run: deno coverage
+
+  bench:
+    name: Bench
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ env.DENO_VERSION }}
+
+      - name: Make Fixtures
+        run: deno task fixtures 12
+
+      - name: Run Benchmark
+        run: deno bench --allow-read --no-check
