@@ -80,7 +80,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'level-6',
-	name: 'find.one',
+	name: 'find.one (sync)',
 	fn() {
 		let _ = Candidates['find.one'](level6);
 	},
@@ -130,7 +130,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'level-10',
-	name: 'find.one',
+	name: 'find.one (sync)',
 	fn() {
 		let _ = Candidates['find.one'](level10);
 	},
@@ -180,7 +180,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'missing',
-	name: 'find.one',
+	name: 'find.one (sync)',
 	fn() {
 		let _ = Candidates['find.one'](other);
 	},

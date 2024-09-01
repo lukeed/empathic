@@ -4,8 +4,9 @@ import * as fs from 'node:fs/promises';
 
 import * as walk from './walk.ts';
 import { absolute } from './resolve.ts';
-import type { Options } from './walk.ts';
 // import { ok } from './access.ts';
+
+import type { Options } from './walk.ts';
 
 export type { Options };
 

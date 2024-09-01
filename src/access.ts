@@ -1,8 +1,14 @@
-import { access, constants } from 'node:fs/promises';
+// re-export existsSync?
+import { accessSync, constants } from 'node:fs';
 import type { PathLike } from 'node:fs';
 
 export function ok(path: PathLike, mode?: number) {
-	return access(path, mode).then(() => true).catch(() => false);
+	try {
+		accessSync(path, mode);
+		return true;
+	} catch {
+		return false;
+	}
 }
 
 export function writable(path: PathLike) {
