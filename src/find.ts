@@ -7,7 +7,7 @@ import type { Options } from './walk.ts';
 
 export type { Options };
 
-export function up(name: string, options?: Options) {
+export function up(name: string, options?: Options): string | undefined {
 	let dir: string, tmp: string;
 	let start = options && options.cwd || '';
 	for (dir of walk.up(start, options)) {
@@ -20,7 +20,7 @@ export function up(name: string, options?: Options) {
  * Get the first path that matches any of the names provided.
  * @see locate-path
  */
-export function any(names: string[], options?: Options) {
+export function any(names: string[], options?: Options): string | undefined {
 	let dir: string, start = options && options.cwd || '';
 	let j = 0, len = names.length, tmp: string;
 	for (dir of walk.up(start, options)) {

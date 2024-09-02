@@ -2,7 +2,7 @@ import { createRequire } from 'node:module';
 import { isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-export function absolute(input: string, root?: string) {
+export function absolute(input: string, root?: string): string {
 	return isAbsolute(input) ? input : resolve(root || '.', input);
 }
 
@@ -11,6 +11,9 @@ export function absolute(input: string, root?: string) {
  * @see `require.resolve`
  * @see resolve-from
  */
+export function from(root: URL | string, ident: string, silent: true): string | undefined;
+export function from(root: URL | string, ident: string, silent?: false): string;
+export function from(root: URL | string, ident: string, silent?: boolean): string | undefined;
 export function from(root: URL | string, ident: string, silent?: boolean) {
 	try {
 		// NOTE: dirs need a trailing "/" OR filename. With "/" route,
@@ -30,6 +33,9 @@ export function from(root: URL | string, ident: string, silent?: boolean) {
  * @see `require.resolve`
  * @see resolve-cwd
  */
+export function cwd(ident: string, silent: true): string | undefined;
+export function cwd(ident: string, silent?: false): string;
+export function cwd(ident: string, silent?: boolean): string | undefined;
 export function cwd(ident: string, silent?: boolean) {
 	return from(resolve(), ident, silent);
 }

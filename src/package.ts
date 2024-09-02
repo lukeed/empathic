@@ -9,14 +9,14 @@ import * as find from './find.ts';
  * Find the closest package.json file
  * @see package-up|pkg-up|pkg-dir
  */
-export const up = /*#__PURE__*/ find.up.bind(0, 'package.json');
+export function up(options?: find.Options): string | undefined {
+	return find.up('package.json', options);
+}
 
 export function cache(
 	name: string,
-	options?: find.Options & {
-		create?: boolean;
-	},
-) {
+	options?: find.Options & { create?: boolean },
+): string | undefined {
 	options ||= {};
 
 	let dir = env.CACHE_DIR;

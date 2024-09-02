@@ -6,7 +6,7 @@ export type Options = {
 	limit?: string;
 };
 
-export function up(base: string, options?: Options) {
+export function up(base: string, options?: Options): string[] {
 	let { limit, cwd } = options || {};
 
 	let tmp = absolute(base, cwd);
