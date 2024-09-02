@@ -1,10 +1,12 @@
 import { join, resolve } from 'node:path';
+import { readdir } from 'node:fs/promises';
 
 import escalade from 'npm:escalade@3.2.0';
 import * as simple from 'npm:find-up-simple@1.0.0';
 import { findUp } from 'npm:find-up@7.0.0';
 
 import * as find from './find.ts';
+import * as walk from './walk.ts';
 
 let fixtures = resolve('fixtures');
 let start = join(fixtures, 'a/b/c/d/e/f/g/h/i/j');
@@ -12,6 +14,18 @@ let start = join(fixtures, 'a/b/c/d/e/f/g/h/i/j');
 let level6 = 'file.txt';
 let level10 = 'deno.json';
 let other = Math.random().toString(16).slice(4);
+
+// like find.up, but readdir->check
+async function alt(name: string, options?: find.Options) {
+	let dir: string, arr: string[];
+	let start = options && options.cwd || '';
+	for (dir of walk.up(start, options)) {
+		arr = await readdir(dir);
+		if (!!~arr.indexOf(name)) {
+			return join(dir, name);
+		}
+	}
+}
 
 const Candidates = {
 	'find-up'(target: string) {
@@ -28,11 +42,8 @@ const Candidates = {
 	'find.up'(target: string) {
 		return find.up(target, { cwd: start });
 	},
-	'find.options'(target: string) {
-		return find.options(target, { cwd: start });
-	},
-	'find.one'(target: string) {
-		return find.one(target, { cwd: start });
+	'find.up (alt)'(target: string) {
+		return alt(target, { cwd: start });
 	},
 };
 
@@ -64,25 +75,17 @@ Deno.bench({
 
 Deno.bench({
 	group: 'level-6',
-	name: 'find.up',
+	name: 'find.up (alt)',
 	async fn() {
-		let _ = await Candidates['find.up'](level6);
+		let _ = await Candidates['find.up (alt)'](level6);
 	},
 });
 
 Deno.bench({
 	group: 'level-6',
-	name: 'find.options',
-	async fn() {
-		let _ = await Candidates['find.options'](level6);
-	},
-});
-
-Deno.bench({
-	group: 'level-6',
-	name: 'find.one (sync)',
+	name: 'find.up (sync)',
 	fn() {
-		let _ = Candidates['find.one'](level6);
+		let _ = Candidates['find.up'](level6);
 	},
 });
 
@@ -114,25 +117,17 @@ Deno.bench({
 
 Deno.bench({
 	group: 'level-10',
-	name: 'find.up',
+	name: 'find.up (alt)',
 	async fn() {
-		let _ = await Candidates['find.up'](level10);
+		let _ = await Candidates['find.up (alt)'](level10);
 	},
 });
 
 Deno.bench({
 	group: 'level-10',
-	name: 'find.options',
-	async fn() {
-		let _ = await Candidates['find.options'](level10);
-	},
-});
-
-Deno.bench({
-	group: 'level-10',
-	name: 'find.one (sync)',
+	name: 'find.up (sync)',
 	fn() {
-		let _ = Candidates['find.one'](level10);
+		let _ = Candidates['find.up'](level10);
 	},
 });
 
@@ -164,24 +159,16 @@ Deno.bench({
 
 Deno.bench({
 	group: 'missing',
-	name: 'find.up',
+	name: 'find.up (alt)',
 	async fn() {
-		let _ = await Candidates['find.up'](other);
+		let _ = await Candidates['find.up (alt)'](other);
 	},
 });
 
 Deno.bench({
 	group: 'missing',
-	name: 'find.options',
-	async fn() {
-		let _ = await Candidates['find.options'](other);
-	},
-});
-
-Deno.bench({
-	group: 'missing',
-	name: 'find.one (sync)',
+	name: 'find.up (sync)',
 	fn() {
-		let _ = Candidates['find.one'](other);
+		let _ = Candidates['find.up'](other);
 	},
 });
