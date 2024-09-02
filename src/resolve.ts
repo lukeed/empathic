@@ -2,13 +2,23 @@ import { createRequire } from 'node:module';
 import { isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+/**
+ * Resolve an abolsute path from {@link root}, but only
+ * if {@link input} isn't already absolute.
+ *
+ * @param input The path to resolve.
+ * @param root The base path; default = process.cwd()
+ * @returns The resolved absolute path.
+ */
 export function absolute(input: string, root?: string): string {
 	return isAbsolute(input) ? input : resolve(root || '.', input);
 }
 
 /**
  * Resolve a module path from a given root directory.
- * @see `require.resolve`
+ *
+ * Emulates [`require.resolve`](https://nodejs.org/docs/latest/api/modules.html#requireresolverequest-options), so module identifiers are allowed.
+ *
  * @see resolve-from
  */
 export function from(root: URL | string, ident: string, silent: true): string | undefined;
@@ -30,7 +40,9 @@ export function from(root: URL | string, ident: string, silent?: boolean) {
 
 /**
  * Resolve a module path from the current working directory.
- * @see `require.resolve`
+ *
+ * Alias for {@link from} using the CWD as its root.
+ *
  * @see resolve-cwd
  */
 export function cwd(ident: string, silent: true): string | undefined;

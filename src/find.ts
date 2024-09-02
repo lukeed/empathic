@@ -6,6 +6,12 @@ import type { Options } from 'empathic/walk';
 
 export type { Options };
 
+/**
+ * Find an item by name, walking parent directories until found.
+ *
+ * @param name The item name to find.
+ * @returns The absolute path to the item, if found.
+ */
 export function up(name: string, options?: Options): string | undefined {
 	let dir: string, tmp: string;
 	let start = options && options.cwd || '';
@@ -17,7 +23,12 @@ export function up(name: string, options?: Options): string | undefined {
 
 /**
  * Get the first path that matches any of the names provided.
- * @see locate-path
+ *
+ * > [NOTE]
+ * > The order of {@link names} is respected.
+ *
+ * @param names The item names to find.
+ * @returns The absolute path of the first item found, if any.
  */
 export function any(names: string[], options?: Options): string | undefined {
 	let dir: string, start = options && options.cwd || '';
