@@ -27,12 +27,12 @@ export type Options = {
 export function up(base: string, options?: Options): string[] {
 	let { limit, cwd } = options || {};
 
-	let tmp = absolute(base, cwd);
+	let tmp = absolute(base, cwd), root = !limit;
 	let prev: string, arr: string[] = [];
 
 	if (limit) limit = absolute(limit, cwd);
 
-	while (tmp !== limit) {
+	while (root || tmp !== limit) {
 		arr.push(tmp);
 		tmp = dirname(prev = tmp);
 		if (tmp === prev) break;
