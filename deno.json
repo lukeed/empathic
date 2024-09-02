@@ -1,7 +1,7 @@
 {
 	"version": "0.0.0",
 	"tasks": {
-		"build": "deno run -RW scripts/build.ts",
+		"build": "deno run -A scripts/build.ts",
 		"fixtures": "deno run -RW scripts/fixtures.ts"
 	},
 	"imports": {
