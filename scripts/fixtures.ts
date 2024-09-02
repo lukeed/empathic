@@ -27,6 +27,10 @@ if (!existsSync(start)) {
 	await Deno.create(
 		join(fixtures, 'a/b/package.json'),
 	);
+
+	await Deno.create(
+		join(fixtures, 'a/b/c/resolved.js'),
+	);
 }
 
 for (let dir of walk.up(start)) {
