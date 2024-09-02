@@ -24,15 +24,16 @@ describe('walk.up', () => {
 		assertEquals(output, parents);
 	});
 
-	it('should start with the first parent directory', () => {
-		assertEquals(parents[0], resolve('fixtures/a/b'));
+	it('should start with the initial directory', () => {
+		assertEquals(parents[0], resolve('fixtures/a/b/c'));
 	});
 
 	it('should return all parents until "/" root', () => {
-		assertEquals(parents[0], resolve('fixtures/a/b'));
-		assertEquals(parents[1], resolve('fixtures/a'));
-		assertEquals(parents[2], resolve('fixtures'));
-		assertEquals(parents[3], resolve('.'));
+		assertEquals(parents[0], resolve('fixtures/a/b/c'));
+		assertEquals(parents[1], resolve('fixtures/a/b'));
+		assertEquals(parents[2], resolve('fixtures/a'));
+		assertEquals(parents[3], resolve('fixtures'));
+		assertEquals(parents[4], resolve('.'));
 		// total chain length unknown
 		assertEquals(parents.at(-1), resolve('/'));
 	});
