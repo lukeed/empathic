@@ -33,7 +33,7 @@ jobs:
         run: deno task fixtures
 
       - name: Test
-        run: deno test -RES --no-check --coverage
+        run: deno test -RWES --no-check --coverage
 
       - name: Report
         run: deno coverage
