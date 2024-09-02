@@ -61,4 +61,25 @@ describe('walk.up', () => {
 
 		assertEquals(output.at(-1), join(fixtures, 'a'));
 	});
+
+	it('should return nothing if limit === start', () => {
+		let start = resolve('fixtures/a/b/c');
+		let output = walk.up(start, { limit: start });
+		assertEquals(output.length, 0);
+	});
+
+	// find-up/locate-paths cycle in infinite loop
+	it('should still exit at root if limit below start', () => {
+		let start = resolve('fixtures/a/b/c');
+		let limit = join(start, 'd/e/f');
+
+		let output = walk.up(start, { limit });
+
+		assertEquals(output[0], resolve('fixtures/a/b/c'));
+		assertEquals(output[1], resolve('fixtures/a/b'));
+		assertEquals(output[2], resolve('fixtures/a'));
+		assertEquals(output.at(-1), resolve('/'));
+
+		assertEquals(output, parents);
+	});
 });

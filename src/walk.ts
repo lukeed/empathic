@@ -32,9 +32,11 @@ export function up(base: string, options?: Options): string[] {
 
 	if (limit) limit = absolute(limit, cwd);
 
-	while (true) {
+	while (tmp !== limit) {
 		arr.push(tmp);
 		tmp = dirname(prev = tmp);
-		if (tmp === (limit || prev)) return arr;
+		if (tmp === prev) break;
 	}
+
+	return arr;
 }
