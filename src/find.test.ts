@@ -23,18 +23,18 @@ describe('find.up', () => {
 		assertEquals(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
 	});
 
-	it('should stop at `options.limit` directory', () => {
+	it('should stop at `options.stop` directory', () => {
 		let output = find.up('file.txt', {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			limit: join(fixtures, 'a/b/c/d/e/f/g'),
+			stop: join(fixtures, 'a/b/c/d/e/f/g'),
 		});
 		assertEquals(output, undefined);
 	});
 
-	it('should NOT process `options.limit` directory', () => {
+	it('should NOT process `options.stop` directory', () => {
 		let output = find.up('file.txt', {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			limit: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+			stop: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
 		});
 		assertEquals(output, undefined);
 	});
@@ -68,10 +68,10 @@ describe('find.any', () => {
 		assertEquals(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
 	});
 
-	it('should NOT process `options.limit` directory', () => {
+	it('should NOT process `options.stop` directory', () => {
 		let output = find.any(['file.txt'], {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			limit: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+			stop: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
 		});
 		assertEquals(output, undefined);
 	});

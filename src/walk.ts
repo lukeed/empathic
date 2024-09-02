@@ -15,24 +15,24 @@ export type Options = {
 	 *
 	 * @default <none> (continue to system root)
 	 */
-	limit?: string;
+	stop?: string;
 };
 
 /**
  * Get all parent directories of {@link base}.
- * Stops at {@link Options['limit']} else system root ("/").
+ * Stops at {@link Options['stop']} else system root ("/").
  *
  * @returns An array of absolute paths of all parent directories.
  */
 export function up(base: string, options?: Options): string[] {
-	let { limit, cwd } = options || {};
+	let { stop, cwd } = options || {};
 
-	let tmp = absolute(base, cwd), root = !limit;
+	let tmp = absolute(base, cwd), root = !stop;
 	let prev: string, arr: string[] = [];
 
-	if (limit) limit = absolute(limit, cwd);
+	if (stop) stop = absolute(stop, cwd);
 
-	while (root || tmp !== limit) {
+	while (root || tmp !== stop) {
 		arr.push(tmp);
 		tmp = dirname(prev = tmp);
 		if (tmp === prev) break;

@@ -66,9 +66,9 @@ Resolve absolute paths to package identifiers, relative paths, file URL, and/or 
 
 ### `empathic/walk`
 
-> [Source](/src/walk.ts) · [Benchmark](/benchmarks.md#walk) · **Size:** `209b`
+> [Source](/src/walk.ts) · [Benchmark](/benchmarks.md#walk) · **Size:** `218b`
 
-Collect all the parent directories of a target. Controlled via `cwd` and `limit` options.
+Collect all the parent directories of a target. Controlled via `cwd` and `stop` options.
 
 
 ## License

@@ -46,34 +46,34 @@ describe('walk.up', () => {
 		assertEquals(output, parents);
 	});
 
-	it('should stop at `options.limit` directory', () => {
+	it('should stop at `options.stop` directory', () => {
 		let output = walk.up('fixtures/a/b/c', {
-			limit: fixtures,
+			stop: fixtures,
 		});
 
 		assert(parents.length > output.length);
 	});
 
-	it('should NOT include `options.limit` directory', () => {
+	it('should NOT include `options.stop` directory', () => {
 		let output = walk.up('fixtures/a/b/c', {
-			limit: fixtures,
+			stop: fixtures,
 		});
 
 		assertEquals(output.at(-1), join(fixtures, 'a'));
 	});
 
-	it('should return nothing if limit === start', () => {
+	it('should return nothing if stop === start', () => {
 		let start = resolve('fixtures/a/b/c');
-		let output = walk.up(start, { limit: start });
+		let output = walk.up(start, { stop: start });
 		assertEquals(output.length, 0);
 	});
 
 	// find-up/locate-paths cycle in infinite loop
-	it('should still exit at root if limit below start', () => {
+	it('should still exit at root if stop is child of start', () => {
 		let start = resolve('fixtures/a/b/c');
-		let limit = join(start, 'd/e/f');
+		let stop = join(start, 'd/e/f');
 
-		let output = walk.up(start, { limit });
+		let output = walk.up(start, { stop });
 
 		assertEquals(output[0], resolve('fixtures/a/b/c'));
 		assertEquals(output[1], resolve('fixtures/a/b'));

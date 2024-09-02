@@ -28,10 +28,10 @@ describe('package.up', () => {
 		assertEquals(output, pkgfile);
 	});
 
-	it('should stop resolving at `options.limit` directory', () => {
+	it('should stop resolving at `options.stop` directory', () => {
 		let output = pkg.up({
 			cwd: resolve('fixtures/a/b/c/d/e/f/g/h/i/j'),
-			limit: resolve('fixtures/a/b/c/d/e/f'),
+			stop: resolve('fixtures/a/b/c/d/e/f'),
 		});
 
 		// see scripts/fixture.ts
@@ -56,10 +56,10 @@ describe('package.cache', () => {
 		assertEquals(output, expect);
 	});
 
-	it('should NOT look at/beyond `options.limit` directory', () => {
+	it('should NOT look at/beyond `options.stop` directory', () => {
 		let output = pkg.cache('foobar', {
 			cwd: start,
-			limit: dirname(pkgfile),
+			stop: dirname(pkgfile),
 		});
 
 		assertEquals(output, undefined);
