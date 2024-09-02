@@ -1,22 +1,35 @@
 import * as walk from './walk.ts';
-import { isAbsolute, resolve, sep } from 'node:path';
+import { dirname, isAbsolute, resolve, sep } from 'node:path';
+import { absolute } from './resolve.ts';
 
 // let start = '.';
 // let start = resolve('fixtures/a/b/c/d/e/f/g/h/i/j/start.txt');
 let start = 'fixtures/a/b/c/d/e/f/g/h/i/j/start.txt';
 
-Deno.bench('walk.up', () => {
+function alt1(base: string) {
+	let prev = absolute(base);
+	let tmp = dirname(prev);
+	let arr: string[] = [];
+
+	while (true) {
+		arr.push(tmp);
+		tmp = dirname(prev = tmp);
+		if (tmp === prev) return arr;
+	}
+}
+
+Deno.bench('walk.up (no options)', () => {
 	let total = 0;
 	// let items = walk.up(start);
 	// console.log('> items', items);
-	for (let _ of walk.up(start)) {
+	for (let _ of alt1(start)) {
 		total += 1;
 	}
 });
 
-Deno.bench('walk.options', () => {
+Deno.bench('walk.up', () => {
 	let total = 0;
-	for (let _ of walk.options(start, { limit: '/' })) {
+	for (let _ of walk.up(start)) {
 		total += 1;
 	}
 });

@@ -38,7 +38,7 @@ describe('walk.up', () => {
 	});
 
 	it.skip('should resolve from `options.cwd` if input not absolute', () => {
-		let output = walk.options('a/b/c', {
+		let output = walk.up('a/b/c', {
 			cwd: fixtures,
 		});
 
@@ -46,7 +46,7 @@ describe('walk.up', () => {
 	});
 
 	it('should stop at `options.limit` directory', () => {
-		let output = walk.options('fixtures/a/b/c', {
+		let output = walk.up('fixtures/a/b/c', {
 			limit: fixtures,
 		});
 
@@ -54,7 +54,7 @@ describe('walk.up', () => {
 	});
 
 	it('should NOT include `options.limit` directory', () => {
-		let output = walk.options('fixtures/a/b/c', {
+		let output = walk.up('fixtures/a/b/c', {
 			limit: fixtures,
 		});
 
