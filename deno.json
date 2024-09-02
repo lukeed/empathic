@@ -3,6 +3,13 @@
 	"tasks": {
 		"fixtures": "deno run -RW scripts/fixtures.ts"
 	},
+	"imports": {
+		"empathic/access": "./src/access.ts",
+		"empathic/find": "./src/find.ts",
+		"empathic/package": "./src/package.ts",
+		"empathic/resolve": "./src/resolve.ts",
+		"empathic/walk": "./src/walk.ts"
+	},
 	"lint": {
 		"rules": {
 			"exclude": [

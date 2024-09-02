@@ -1,9 +1,8 @@
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 
-import * as walk from './walk.ts';
-
-import type { Options } from './walk.ts';
+import * as walk from 'empathic/walk';
+import type { Options } from 'empathic/walk';
 
 export type { Options };
 

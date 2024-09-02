@@ -1,5 +1,5 @@
 import { dirname } from 'node:path';
-import { absolute } from './resolve.ts';
+import { absolute } from 'empathic/resolve';
 
 export type Options = {
 	cwd?: string;

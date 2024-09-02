@@ -2,8 +2,8 @@ import { env } from 'node:process';
 import { dirname, join } from 'node:path';
 import { existsSync, mkdirSync } from 'node:fs';
 
-import { writable } from './access.ts';
-import * as find from './find.ts';
+import { writable } from 'empathic/access';
+import * as find from 'empathic/find';
 
 /**
  * Find the closest package.json file

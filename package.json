@@ -9,8 +9,27 @@
 		"email": "luke.edwards05@gmail.com",
 		"url": "https://lukeed.com"
 	},
-	"files": ["*.json"],
 	"exports": {
+		"./access": {
+			"types": "./access.d.mts",
+			"import": "./access.mjs"
+		},
+		"./find": {
+			"types": "./find.d.mts",
+			"import": "./find.mjs"
+		},
+		"./package": {
+			"types": "./package.d.mts",
+			"import": "./package.mjs"
+		},
+		"./resolve": {
+			"types": "./resolve.d.mts",
+			"import": "./resolve.mjs"
+		},
+		"./walk": {
+			"types": "./walk.d.mts",
+			"import": "./walk.mjs"
+		},
 		"./package.json": "./package.json"
 	},
 	"engines": {
