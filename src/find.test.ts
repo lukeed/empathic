@@ -3,10 +3,10 @@ import { assertEquals } from 'jsr:@std/assert@1.0';
 import { join, resolve } from 'node:path';
 import * as find from './find.ts';
 
-describe('find.up', () => {
-	const fixtures = resolve('fixtures');
+const fixtures = resolve('fixtures');
 
-	it('is a function', () => {
+describe('find.up', () => {
+	it('should be a function', () => {
 		assertEquals(typeof find.up, 'function');
 	});
 
@@ -33,6 +33,43 @@ describe('find.up', () => {
 
 	it('should NOT process `options.limit` directory', () => {
 		let output = find.up('file.txt', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			limit: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+		});
+		assertEquals(output, undefined);
+	});
+});
+
+describe('find.any', () => {
+	it('should be a function', () => {
+		assertEquals(typeof find.any, 'function');
+	});
+
+	it('should looking in current (cwd) directory', () => {
+		let output = find.any(['deno.json']);
+		assertEquals(output, resolve('deno.json'));
+	});
+
+	it('should respect the input order', () => {
+		// deno.json comes first in file system, but not here
+		let output = find.any(['license', 'deno.json']);
+		assertEquals(output, resolve('license'));
+	});
+
+	it('should resolve from `options.cwd` directory', () => {
+		let input = ['start.txt', 'file.txt'];
+		let start = join(fixtures, 'a/b/c/d/e/f/g/h/i/j');
+
+		let output = find.any(input, { cwd: start });
+		assertEquals(output, join(start, 'start.txt'));
+
+		start = join(start, '..');
+		output = find.any(input, { cwd: start });
+		assertEquals(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
+	});
+
+	it('should NOT process `options.limit` directory', () => {
+		let output = find.any(['file.txt'], {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
 			limit: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
 		});

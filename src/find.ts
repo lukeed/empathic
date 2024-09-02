@@ -16,19 +16,17 @@ export function up(name: string, options?: Options) {
 	}
 }
 
-// function exists(path: string) {
-// 	return ok(path).then((bool) => {
-// 		return bool ? path : Promise.reject();
-// 	});
-// }
-
-// export async function any(names: string[], options?: Options) {
-// 	let root = options && options.cwd || '';
-// 	let dir: string, arr: string[];
-// 	for (dir of walk.up(root, options)) {
-// 		arr = await fs.readdir(dir);
-// 		await Promise.race(
-// 			arr.map(exists),
-// 		);
-// 	}
-// }
+/**
+ * Get the first path that matches any of the names provided.
+ * @see locate-path
+ */
+export function any(names: string[], options?: Options) {
+	let dir: string, start = options && options.cwd || '';
+	let j = 0, len = names.length, tmp: string;
+	for (dir of walk.up(start, options)) {
+		for (j = 0; j < len; j++) {
+			tmp = join(dir, names[j]);
+			if (existsSync(tmp)) return tmp;
+		}
+	}
+}
