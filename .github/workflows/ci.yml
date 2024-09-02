@@ -38,6 +38,18 @@ jobs:
       - name: Report
         run: deno coverage
 
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ env.DENO_VERSION }}
+
+      - name: Size (bytes)
+        run: deno task build
+
   bench:
     name: Bench
     runs-on: ubuntu-latest
