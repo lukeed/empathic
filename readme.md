@@ -5,7 +5,7 @@
 Multiple submodules (eg, `empathic/find`) are offered, _each of which_ are:
 
 * **fast** — 8x to 40x faster than popular alternatives
-* **modern** — make use of newer `node:*` native APIs
+* **modern** — based on of newer `node:*` native APIs
 * **small** — ranging from 200b to 500b in size
 * **safe** — zero-dependency & easy to read
 
@@ -22,54 +22,53 @@ import { resolve } from 'node:path';
 import * as find from 'empathic/find';
 import * as pkg from 'empathic/package';
 
-let root = resolve('path/to/app');
+// Assumed example structure:
+let cwd = resolve('path/to/acme/websites/dashboard');
 
 // Find closest "foobar.config.js" file
-let file = find.up('foobar.config.js', { cwd: root });
-//=> eg "/.../path/foobar.config.js"
+let file = find.up('foobar.config.js', { cwd });
+//=> "/.../path/to/acme/foobar.config.js"
 
 // Find closest "package.json" file
-let pkgfile = pkg.up({ cwd: root });
-//=> eg "/.../path/package.json"
+let pkgfile = pkg.up({ cwd });
+//=> "/.../path/to/acme/package.json"
 
 // Construct (optionally create) "foobar" cache dir
-let cache = pkg.cache('foobar', {
-	cwd: root,
-	create: true,
-});
-//=> eg "/.../path/node_modules/.cache/foobar"
+let cache = pkg.cache('foobar', { cwd, create: true });
+//=> "/.../path/to/acme/node_modules/.cache/foobar"
 ```
 
 ## API
 
 ### `empathic/access`
 
-> [Source](/main/src/access.ts) · **Size:** `259b`
+> [Source](/src/access.ts) · **Size:** `259b`
 
 Check for file access/permissions. Named [`fs.accessSync`](https://nodejs.org/docs/latest/api/fs.html#fsaccesssyncpath-mode) shortcuts.
 
 ### `empathic/find`
 
-> [Source](/main/src/find.ts) · [Benchmark](/benchmarks#find) · **Size:** `321b`
+> [Source](/main/src/find.ts) · [Benchmark](/benchmarks.md#find) · **Size:** `321b`
 
 Find files and/or directories by walking up parent directories.
 
 ### `empathic/package`
 
-> [Source](/main/src/package.ts) · [Benchmark](/benchmarks.md#package) · **Size:** `505b`
+> [Source](/src/package.ts) · [Benchmark](/benchmarks.md#package) · **Size:** `505b`
 
 Convenience helpers for dealing with `package.json` files and/or `node_modules` packages.
 
 ### `empathic/resolve`
 
-> [Source](/main/src/resolve.ts) · [Benchmark](/benchmarks#resolve) · **Size:** `419b`
+> [Source](/src/resolve.ts) · [Benchmark](/benchmarks.md#resolve) · **Size:** `419b`
 
+Resolve absolute paths to package identifiers, relative paths, file URL, and/or from other root directories.
 
 ### `empathic/walk`
 
-> [Source](/main/src/walk.ts) · [Benchmark](/benchmarks#walk) · **Size:** `208b`
+> [Source](/src/walk.ts) · [Benchmark](/benchmarks.md#walk) · **Size:** `208b`
 
-Collect all the parent directories of a target. Offers `cwd` and `limit` options.
+Collect all the parent directories of a target. Controlled via `cwd` and `limit` options.
 
 
 ## License
