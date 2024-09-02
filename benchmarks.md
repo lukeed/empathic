@@ -8,8 +8,9 @@ $ deno task fixtures <number of files per directory>
 $ deno bench -RES
 ```
 
-You can also find the benchmark results in the [CI pipeline](/actions/workflows/ci.yml), as it runs
-**all** benchmarks on **every** push and tag. Module size tracking is also logged on every CI run.
+You can also find the benchmark results in the
+[CI pipeline](https://github.com/lukeed/empathic/actions/workflows/ci.yml), as it runs **all**
+benchmarks on **every** push and tag. Module size tracking is also logged on every CI run.
 
 The results below are taken from my machine with **13 fixtures in each directory**. Please note that
 GitHub Actions run on different hardware.
