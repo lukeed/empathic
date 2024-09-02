@@ -8,9 +8,11 @@ $ deno task fixtures <number of files per directory>
 $ deno bench -RES
 ```
 
-You can also find the benchmark results in the [CI pipeline](/actions/workflows/ci.yml), as it runs **all** benchmarks on **every** push and tag. Module size tracking is also logged on every CI run.
+You can also find the benchmark results in the [CI pipeline](/actions/workflows/ci.yml), as it runs
+**all** benchmarks on **every** push and tag. Module size tracking is also logged on every CI run.
 
-The results below are taken from my machine with **13 fixtures in each directory**. Please note that GitHub Actions run on different hardware.
+The results below are taken from my machine with **13 fixtures in each directory**. Please note that
+GitHub Actions run on different hardware.
 
 ```
     CPU | Apple M1 Max
@@ -23,10 +25,10 @@ A best-effort is made, wherever possible, to ensure fair comparison.
 
 ### `find.up`
 
-> Look for **one** target in N parent directories.
-> See [`find.any`](#findany) results for targetting **multiple** files.
+> Look for **one** target in N parent directories.<br> See [`find.any`](#findany) results for
+> targetting **multiple** files.
 
-***Walk `6` parent directories before finding the `one` target***
+_**Walk `6` parent directories before finding the `one` target**_
 
 ```
 file:///.../empathic/src/find.bench.ts
@@ -45,7 +47,7 @@ summary
     28.09x faster than escalade
 ```
 
-***Walk `10` parent directories before finding the `one` target***
+_**Walk `10` parent directories before finding the `one` target**_
 
 ```
 file:///.../empathic/src/find.bench.ts
@@ -64,7 +66,7 @@ summary
     29.81x faster than escalade
 ```
 
-***Walk `15+` parent directories, never finding the `one` target***
+_**Walk `15+` parent directories, never finding the `one` target**_
 
 ```
 file:///.../empathic/src/find.bench.ts
@@ -85,10 +87,10 @@ summary
 
 ### `find.any`
 
-> Look for **any** of the targets listed in N parent directories.<br>
-> See [`find.up`](#findup) results for targetting **one** file.
+> Look for **any** of the targets listed in N parent directories.<br> See [`find.up`](#findup)
+> results for targetting **one** file.
 
-***Walk `6` parent directories before finding **any of** the targets***
+_**Walk `6` parent directories before finding **any of** the targets**_
 
 ```
 file:///.../empathic/src/locate.bench.ts
@@ -111,7 +113,7 @@ summary
     36.91x faster than find-up
 ```
 
-***Walk `10` parent directories before finding **any of** the targets***
+_**Walk `10` parent directories before finding **any of** the targets**_
 
 ```
 file:///.../empathic/src/locate.bench.ts
@@ -134,7 +136,7 @@ summary
     19.30x faster than find-up
 ```
 
-***Walk `15+` parent directories, never finding **any of** the targets***
+_**Walk `15+` parent directories, never finding **any of** the targets**_
 
 ```
 file:///.../empathic/src/locate.bench.ts
@@ -157,12 +159,11 @@ summary
     17.71x faster than find-up (sync)
 ```
 
-
 ## package
 
 ### `package.up`
 
-***Find the nearest `package.json` file***
+_**Find the nearest `package.json` file**_
 
 ```
 file:///.../empathic/src/package.bench.ts
@@ -183,9 +184,10 @@ summary
     23.55x faster than pkg-up
 ```
 
-***Get the directory path of the closest `package.json` file***
+_**Get the directory path of the closest `package.json` file**_
 
-> **Note:** `package.up` passes its output to [`path.dirname()`](https://nodejs.org/docs/latest/api/path.html#pathdirnamepath) for equality.
+> **Note:** `package.up` passes its output to
+> [`path.dirname()`](https://nodejs.org/docs/latest/api/path.html#pathdirnamepath) for equality.
 
 ```
 file:///.../empathic/src/package.bench.ts
@@ -204,7 +206,7 @@ summary
 
 ### `package.cache`
 
-***Construct a `node_modules/.cache/<name>` directory for a package***
+_**Construct a `node_modules/.cache/<name>` directory for a package**_
 
 ```
 file:///.../empathic/src/package.bench.ts
@@ -222,6 +224,7 @@ summary
 ## resolve
 
 ### `resolve.from`
+
 > Emulate `require.resolve` from a starting directory
 
 ```
@@ -237,8 +240,8 @@ summary
      1.23x faster than resolve-from
 ```
 
-
 ### `resolve.cwd`
+
 > Emulate `require.resolve` from the current working directory
 
 ```
@@ -253,7 +256,6 @@ summary
   resolve.cwd
      1.09x faster than resolve-cwd
 ```
-
 
 ## walk
 
