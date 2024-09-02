@@ -1,6 +1,6 @@
 {
 	"name": "empathic",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"repository": "lukeed/empathic",
 	"description": "A set of small Node.js utilities to understand your pathing needs.",
 	"license": "MIT",
