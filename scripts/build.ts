@@ -1,13 +1,16 @@
+// Publish:
+//   $ npm version <asd>
+//   $ git push origin main --tags
+//   #-> CI builds w/ publish
+
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
+
 import oxc from 'npm:oxc-transform@^0.25';
 import { minify } from 'npm:terser@5.31';
 
 const src = resolve('src');
 const outdir = resolve('npm');
-
-const [version] = Deno.args;
-console.log('? version:', version);
 
 const Inputs = [
 	'access.ts',
@@ -22,12 +25,12 @@ function bail(label: string, errors: string[]): never {
 	Deno.exit(1);
 }
 
-// function copy(file: string) {
-// 	if (existsSync(file)) {
-// 		console.log('> writing "%s" file', file);
-// 		return Deno.copyFile(file, join(outdir, file));
-// 	}
-// }
+function copy(file: string) {
+	if (existsSync(file)) {
+		console.log('> writing "%s" file', file);
+		return Deno.copyFile(file, join(outdir, file));
+	}
+}
 
 async function transform(filename: string) {
 	let entry = join(src, filename);
@@ -82,3 +85,7 @@ await Deno.mkdir(outdir);
 for (let name of Inputs) {
 	await transform(name);
 }
+
+await copy('package.json');
+await copy('readme.md');
+await copy('license');

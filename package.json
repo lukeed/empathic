@@ -2,7 +2,7 @@
 	"name": "empathic",
 	"version": "0.0.0",
 	"repository": "lukeed/empathic",
-	"description": "A set of small utilities to understand your Node.js pathing needs",
+	"description": "A set of small Node.js utilities to understand your pathing needs.",
 	"license": "MIT",
 	"author": {
 		"name": "Luke Edwards",
