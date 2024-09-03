@@ -47,7 +47,7 @@ jobs:
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
-      - name: Size (bytes)
+      - name: Check Size
         run: deno task build
 
   bench:
@@ -86,7 +86,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
 
       - name: Build
-        run: deno task build
+        run: deno task build --quiet
 
       # - name: "Publish → jsr"
       #   if: ${{ !contains(github.ref, '-next.') }}
