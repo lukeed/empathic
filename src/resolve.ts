@@ -3,7 +3,7 @@ import { isAbsolute, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /**
- * Resolve an abolsute path from {@link root}, but only
+ * Resolve an absolute path from {@link root}, but only
  * if {@link input} isn't already absolute.
  *
  * @param input The path to resolve.
