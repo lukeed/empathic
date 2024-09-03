@@ -36,9 +36,9 @@
 		"test": "uvu"
 	},
 	"engines": {
-		"node": ">=18"
+		"node": ">=16"
 	},
 	"devDependencies": {
-		"uvu": "^0.5"
+		"uvu": "0.5"
 	}
 }
