@@ -18,8 +18,8 @@ describe('find.up', (it) => {
 	});
 
 	it('should default looking in current (cwd) directory', () => {
-		let output = find.up('deno.json');
-		assert.is(output, resolve('deno.json'));
+		let output = find.up('license');
+		assert.is(output, resolve('license'));
 	});
 
 	it('should use `options.cwd` directory', () => {
@@ -53,14 +53,14 @@ describe('find.any', (it) => {
 	});
 
 	it('should looking in current (cwd) directory', () => {
-		let output = find.any(['deno.json']);
-		assert.is(output, resolve('deno.json'));
+		let output = find.any(['license']);
+		assert.is(output, resolve('license'));
 	});
 
 	it('should respect the input order', () => {
-		// deno.json comes first in file system, but not here
-		let output = find.any(['license', 'deno.json']);
-		assert.is(output, resolve('license'));
+		// license comes first in file system, but not here
+		let output = find.any(['readme.md', 'license', 'deno.json']);
+		assert.is(output, resolve('readme.md'));
 	});
 
 	it('should resolve from `options.cwd` directory', () => {

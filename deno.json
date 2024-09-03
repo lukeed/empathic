@@ -2,6 +2,7 @@
 	"version": "0.0.0",
 	"tasks": {
 		"build": "deno run -A scripts/build.ts",
+		"pretest": "deno run -A scripts/pretest.ts",
 		"fixtures": "deno run -RW scripts/fixtures.ts"
 	},
 	"imports": {

@@ -33,13 +33,12 @@
 		"./package.json": "./package.json"
 	},
 	"scripts": {
-		"test": "uvu -r tsm src .test.ts"
+		"test": "uvu"
 	},
 	"engines": {
 		"node": ">=18"
 	},
 	"devDependencies": {
-		"tsm": "^2.3.0",
 		"uvu": "^0.5"
 	}
 }

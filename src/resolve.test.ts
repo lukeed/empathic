@@ -123,8 +123,8 @@ describe('resolve.cwd', (it) => {
 	});
 
 	it('should resolve relative paths', () => {
-		let target = path.resolve('deno.json');
-		let output = resolve.cwd('./deno.json');
+		let target = path.resolve('license');
+		let output = resolve.cwd('./license');
 		assert.is(output, target);
 	});
 

@@ -11,8 +11,8 @@ env:
   DENO_VERSION: 1.46
 
 jobs:
-  test:
-    name: Test
+  health:
+    name: Health
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,14 +29,34 @@ jobs:
       - name: Type Check
         run: deno check src/*.ts
 
-      - name: Fixtures
-        run: deno task fixtures
+  node:
+    name: Node.js v${{ matrix.nodejs }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        nodejs: [14, 16, 18, 20, 22]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.nodejs }}
+    - uses: denoland/setup-deno@v1
+      with:
+        deno-version: ${{ env.DENO_VERSION }}
 
-      - name: Test
-        run: deno test -RWES --no-check --coverage
+    - name: Prepare
+      run: |
+        deno task fixtures
+        deno task build --quiet
+        deno task pretest --quiet
 
-      - name: Report
-        run: deno coverage
+    - name: Install
+      working-directory: npm
+      run: npm install
+
+    - name: Run Tests
+      working-directory: npm
+      run: npm test
 
   build:
     name: Build
@@ -68,8 +88,8 @@ jobs:
   # https://jsr.io/docs/publishing-packages#publishing-from-github-actions
   # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
   publish:
-    needs: [test]
     name: Publish
+    needs: [health, node]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     permissions:
