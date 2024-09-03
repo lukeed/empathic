@@ -1,66 +1,78 @@
-import { describe, it } from 'jsr:@std/testing@1.0/bdd';
-import { assert, assertEquals, assertInstanceOf, assertThrows } from 'jsr:@std/assert@1.0';
-import { pathToFileURL } from 'node:url';
+import * as assert from 'uvu/assert';
+import { suite, type Test } from 'uvu';
+
 import * as path from 'node:path';
+import * as fs from 'node:fs/promises';
+import { pathToFileURL } from 'node:url';
 
-import * as resolve from './resolve.ts';
+import * as resolve from 'empathic/resolve';
 
-describe('resolve.absolute', () => {
+type Builder = (it: Test) => unknown;
+function describe(name: string, builder: Builder) {
+	let it = suite(name);
+	builder(it);
+	it.run();
+}
+
+describe('resolve.absolute', (it) => {
 	it('should be a function', () => {
-		assertEquals(typeof resolve.absolute, 'function');
+		assert.type(resolve.absolute, 'function');
 	});
 
 	it('should respect absolute inputs', () => {
 		let input = path.resolve('fixtures/a/b/c');
 		let output = resolve.absolute(input);
-		assertEquals(output, input);
+		assert.is(output, input);
 	});
 
 	it('should resolve non-absolute inputs', () => {
 		let output = resolve.absolute('fixtures/a/b/c');
-		assertEquals(output, path.resolve('fixtures/a/b/c'));
+		assert.is(output, path.resolve('fixtures/a/b/c'));
 	});
 
 	it.skip('should handle file:/// inputs', () => {
 		let real = path.resolve('fixtures');
 		let input = pathToFileURL(real).toString();
 		let output = resolve.absolute(input);
-		assertEquals(output, real);
+		assert.is(output, real);
 	});
 });
 
-describe('resolve.from', () => {
+describe('resolve.from', (it) => {
 	it('should be a function', () => {
-		assertEquals(typeof resolve.from, 'function');
+		assert.is(typeof resolve.from, 'function');
 	});
 
 	it('should throw MODULE_NOT_FOUND if identifer not found', () => {
-		let err = assertThrows(() => resolve.from('fixtures', 'foobar'));
+		try {
+			let _ = resolve.from('fixtures', 'foobar');
+			assert.unreachable('should have thrown');
+		} catch (err) {
+			assert.instance(err, Error);
 
-		// deno-lint-ignore no-explicit-any
-		let { code, requireStack } = err as any;
+			let { code, requireStack } = err;
 
-		assertInstanceOf(err, Error);
-		assertEquals(code, 'MODULE_NOT_FOUND');
-		assert(err.message.includes("Cannot find module 'foobar'"));
-		// NOTE: the "noop.js" is added internally (lol) because its a dir
-		assertEquals(requireStack, [path.resolve('fixtures/noop.js')]);
+			assert.is(code, 'MODULE_NOT_FOUND');
+			assert.match(err.message, "Cannot find module 'foobar'");
+			// NOTE: the "noop.js" is added internally (lol) because its a dir
+			assert.equal(requireStack, [path.resolve('fixtures/noop.js')]);
+		}
 	});
 
 	it('should NOT throw if `silent` enabled', () => {
 		let output = resolve.from('foo', 'bar', true);
-		assertEquals(output, undefined);
+		assert.is(output, undefined);
 	});
 
 	it('should resolve relative paths', async () => {
 		let target = path.resolve('fixtures/foo.js');
 
 		try {
-			(await Deno.create(target)).close();
+			await fs.writeFile(target, '');
 			let output = resolve.from('fixtures', './foo');
-			assertEquals(output, target);
+			assert.is(output, target);
 		} finally {
-			await Deno.remove(target);
+			await fs.unlink(target);
 		}
 	});
 
@@ -72,46 +84,48 @@ describe('resolve.from', () => {
 		let target = path.join(foobar, 'index.js');
 
 		try {
-			await Deno.mkdir(foobar, { recursive: true });
+			await fs.mkdir(foobar, { recursive: true });
 
-			(await Deno.create(pkgfile)).close();
-			(await Deno.create(target)).close();
+			await fs.writeFile(target, '');
+			await fs.writeFile(pkgfile, '{}');
 
 			let output = resolve.from('fixtures', 'foobar');
-			assertEquals(output, target);
+			assert.is(output, target);
 		} finally {
-			await Deno.remove(moddir, { recursive: true });
+			await fs.rm(moddir, { recursive: true });
 		}
 	});
 });
 
-describe('resolve.cwd', () => {
+describe('resolve.cwd', (it) => {
 	it('should be a function', () => {
-		assertEquals(typeof resolve.cwd, 'function');
+		assert.type(resolve.cwd, 'function');
 	});
 
 	it('should throw if identifier does not exist', () => {
-		let err = assertThrows(() => resolve.cwd('foobar'));
+		try {
+			let _ = resolve.cwd('foobar');
+			assert.unreachable('should have thrown');
+		} catch (err) {
+			let { code, requireStack } = err;
 
-		// deno-lint-ignore no-explicit-any
-		let { code, requireStack } = err as any;
-
-		assertInstanceOf(err, Error);
-		assertEquals(code, 'MODULE_NOT_FOUND');
-		assert(err.message.includes("Cannot find module 'foobar'"));
-		// NOTE: the "noop.js" is added internally (lol) because its a dir
-		assertEquals(requireStack, [path.resolve('noop.js')]);
+			assert.instance(err, Error);
+			assert.is(code, 'MODULE_NOT_FOUND');
+			assert.match(err.message, "Cannot find module 'foobar'");
+			// NOTE: the "noop.js" is added internally (lol) because its a dir
+			assert.equal(requireStack, [path.resolve('noop.js')]);
+		}
 	});
 
 	it('should NOT throw if `silent` enabled', () => {
 		let output = resolve.cwd('foobar', true);
-		assertEquals(output, undefined);
+		assert.is(output, undefined);
 	});
 
 	it('should resolve relative paths', () => {
 		let target = path.resolve('deno.json');
 		let output = resolve.cwd('./deno.json');
-		assertEquals(output, target);
+		assert.is(output, target);
 	});
 
 	it('should resolve node_module identifiers', async () => {
@@ -122,15 +136,15 @@ describe('resolve.cwd', () => {
 		let target = path.join(foobar, 'index.js');
 
 		try {
-			await Deno.mkdir(foobar, { recursive: true });
+			await fs.mkdir(foobar, { recursive: true });
 
-			(await Deno.create(pkgfile)).close();
-			(await Deno.create(target)).close();
+			await fs.writeFile(target, '');
+			await fs.writeFile(pkgfile, '{}');
 
 			let output = resolve.cwd('foobar');
-			assertEquals(output, target);
+			assert.is(output, target);
 		} finally {
-			await Deno.remove(foobar, { recursive: true });
+			await fs.rm(foobar, { recursive: true });
 		}
 	});
 });

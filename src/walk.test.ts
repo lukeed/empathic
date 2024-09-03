@@ -1,14 +1,21 @@
-import { assert, assertEquals, assertInstanceOf } from 'jsr:@std/assert@1.0';
-import { describe, it } from 'jsr:@std/testing@1.0/bdd';
+import * as assert from 'uvu/assert';
+import { suite, type Test } from 'uvu';
 import { join, resolve } from 'node:path';
 
-import * as walk from './walk.ts';
+import * as walk from 'empathic/walk';
 
-describe('walk.up', () => {
+type Builder = (it: Test) => unknown;
+function describe(name: string, builder: Builder) {
+	let it = suite(name);
+	builder(it);
+	it.run();
+}
+
+describe('walk.up', (it) => {
 	const fixtures = resolve('fixtures');
 
 	it('should be a function', () => {
-		assertEquals(typeof walk.up, 'function');
+		assert.type(walk.up, 'function');
 	});
 
 	let parents = walk.up(
@@ -16,34 +23,34 @@ describe('walk.up', () => {
 	);
 
 	it('should return an Array of parent directories', () => {
-		assertInstanceOf(parents, Array);
+		assert.instance(parents, Array);
 	});
 
 	it('should resolve input from CWD if not absolute', () => {
 		let output = walk.up('fixtures/a/b/c');
-		assertEquals(output, parents);
+		assert.equal(output, parents);
 	});
 
 	it('should start with the initial directory', () => {
-		assertEquals(parents[0], resolve('fixtures/a/b/c'));
+		assert.is(parents[0], resolve('fixtures/a/b/c'));
 	});
 
 	it('should return all parents until "/" root', () => {
-		assertEquals(parents[0], resolve('fixtures/a/b/c'));
-		assertEquals(parents[1], resolve('fixtures/a/b'));
-		assertEquals(parents[2], resolve('fixtures/a'));
-		assertEquals(parents[3], resolve('fixtures'));
-		assertEquals(parents[4], resolve('.'));
+		assert.is(parents[0], resolve('fixtures/a/b/c'));
+		assert.is(parents[1], resolve('fixtures/a/b'));
+		assert.is(parents[2], resolve('fixtures/a'));
+		assert.is(parents[3], resolve('fixtures'));
+		assert.is(parents[4], resolve('.'));
 		// total chain length unknown
-		assertEquals(parents.at(-1), resolve('/'));
+		assert.is(parents.at(-1), resolve('/'));
 	});
 
-	it.skip('should resolve from `options.cwd` if input not absolute', () => {
+	it('should resolve from `options.cwd` if input not absolute', () => {
 		let output = walk.up('a/b/c', {
 			cwd: fixtures,
 		});
 
-		assertEquals(output, parents);
+		assert.equal(output, parents);
 	});
 
 	it('should stop at `options.stop` directory', () => {
@@ -51,7 +58,7 @@ describe('walk.up', () => {
 			stop: fixtures,
 		});
 
-		assert(parents.length > output.length);
+		assert.ok(parents.length > output.length);
 	});
 
 	it('should NOT include `options.stop` directory', () => {
@@ -59,13 +66,13 @@ describe('walk.up', () => {
 			stop: fixtures,
 		});
 
-		assertEquals(output.at(-1), join(fixtures, 'a'));
+		assert.is(output.at(-1), join(fixtures, 'a'));
 	});
 
 	it('should return nothing if stop === start', () => {
 		let start = resolve('fixtures/a/b/c');
 		let output = walk.up(start, { stop: start });
-		assertEquals(output.length, 0);
+		assert.is(output.length, 0);
 	});
 
 	// find-up/locate-paths cycle in infinite loop
@@ -75,11 +82,11 @@ describe('walk.up', () => {
 
 		let output = walk.up(start, { stop });
 
-		assertEquals(output[0], resolve('fixtures/a/b/c'));
-		assertEquals(output[1], resolve('fixtures/a/b'));
-		assertEquals(output[2], resolve('fixtures/a'));
-		assertEquals(output.at(-1), resolve('/'));
+		assert.is(output[0], resolve('fixtures/a/b/c'));
+		assert.is(output[1], resolve('fixtures/a/b'));
+		assert.is(output[2], resolve('fixtures/a'));
+		assert.is(output.at(-1), resolve('/'));
 
-		assertEquals(output, parents);
+		assert.equal(output, parents);
 	});
 });
