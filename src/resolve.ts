@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
  * @returns The resolved absolute path.
  */
 export function absolute(input: string, root?: string): string {
-	return isAbsolute(input) ? input : resolve(root || '.', input);
+	return isAbsolute(input) ? input : resolve(root ?? '.', input);
 }
 
 /**
@@ -28,13 +28,13 @@ export function from(root: URL | string, ident: string, silent?: boolean) {
 	try {
 		// NOTE: dirs need a trailing "/" OR filename. With "/" route,
 		// Node adds "noop.js" as main file, so just do "noop.js" anyway.
-		let r = (root instanceof URL || root.startsWith('file://'))
-			? join(fileURLToPath(root), 'noop.js')
-			: join(absolute(root), 'noop.js');
-
-		return createRequire(r).resolve(ident);
+		return createRequire(
+			(root instanceof URL || root.startsWith('file://'))
+				? join(fileURLToPath(root), 'noop.js')
+				: join(absolute(root), 'noop.js')
+		).resolve(ident);
 	} catch (err) {
-		if (!silent) throw err;
+		if (silent !== true) throw err;
 	}
 }
 
