@@ -25,18 +25,25 @@ export type Options = {
  * @returns An array of absolute paths of all parent directories.
  */
 export function up(base: string, options?: Options): string[] {
-	let { stop, cwd } = options || {};
+	const cwd = options?.cwd;
+	const stop = typeof options?.stop === 'undefined' ? null : absolute(options.stop, cwd);
 
-	let tmp = absolute(base, cwd), root = !stop;
-	let prev: string, arr: string[] = [];
+	let tmp = absolute(base, cwd), prev: string;
+	const arr: string[] = [];
 
-	if (stop) stop = absolute(stop, cwd);
-
-	while (root || tmp !== stop) {
+	if (stop === null) do {
 		arr.push(tmp);
-		tmp = dirname(prev = tmp);
-		if (tmp === prev) break;
-	}
+		prev = tmp;
+		tmp = dirname(prev);
+	} while (tmp !== prev);
+		
+	else if (tmp === stop) return arr;
+		
+	else do {
+		arr.push(tmp);
+		prev = tmp;
+		tmp = dirname(prev);
+	} while (tmp === prev && tmp !== stop);
 
 	return arr;
 }
