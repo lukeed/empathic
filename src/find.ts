@@ -1,7 +1,7 @@
 import { join } from 'node:path';
 import { existsSync } from 'node:fs';
 
-import * as walk from 'empathic/walk';
+import { up as walkUp } from 'empathic/walk';
 import type { Options } from 'empathic/walk';
 
 export type { Options };
@@ -13,10 +13,11 @@ export type { Options };
  * @returns The absolute path to the item, if found.
  */
 export function up(name: string, options?: Options): string | undefined {
-	let dir: string, tmp: string;
-	let start = options && options.cwd || '';
-	for (dir of walk.up(start, options)) {
-		tmp = join(dir, name);
+	let dir: string;
+	let start = options?.cwd ?? '';
+	
+	for (dir of walkUp(start, options)) {
+		const tmp = join(dir, name);
 		if (existsSync(tmp)) return tmp;
 	}
 }
@@ -31,11 +32,13 @@ export function up(name: string, options?: Options): string | undefined {
  * @returns The absolute path of the first item found, if any.
  */
 export function any(names: string[], options?: Options): string | undefined {
-	let dir: string, start = options && options.cwd || '';
-	let j = 0, len = names.length, tmp: string;
-	for (dir of walk.up(start, options)) {
-		for (j = 0; j < len; j++) {
-			tmp = join(dir, names[j]);
+	let dir: string;
+	const start = options?.cwd ?? '';
+	const len = names.length;
+	
+	for (dir of walkUp(start, options)) {
+		for (let j = 0; j < len; j++) {
+			const tmp = join(dir, names[j]);
 			if (existsSync(tmp)) return tmp;
 		}
 	}
