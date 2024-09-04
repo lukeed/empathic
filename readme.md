@@ -48,7 +48,7 @@ Check for file access/permissions. Named [`fs.accessSync`](https://nodejs.org/do
 
 ### `empathic/find`
 
-> [Source](/main/src/find.ts) · [Benchmark](/benchmarks.md#find) · **Size:** `321b`
+> [Source](/src/find.ts) · [Benchmark](/benchmarks.md#find) · **Size:** `321b`
 
 Find files and/or directories by walking up parent directories.
 
