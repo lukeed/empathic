@@ -13,11 +13,10 @@ export type { Options };
  * @returns The absolute path to the item, if found.
  */
 export function up(name: string, options?: Options): string | undefined {
-	let dir: string;
-	let start = options?.cwd ?? '';
-	
-	for (dir of walkUp(start, options)) {
-		const tmp = join(dir, name);
+	const dirs = walkUp(options?.cwd ?? '', options);
+
+	for (let i = 0, l = dirs.length; i < l; i++) {
+		const tmp = join(dirs[i], name);
 		if (existsSync(tmp)) return tmp;
 	}
 }
@@ -32,11 +31,12 @@ export function up(name: string, options?: Options): string | undefined {
  * @returns The absolute path of the first item found, if any.
  */
 export function any(names: string[], options?: Options): string | undefined {
-	let dir: string;
-	const start = options?.cwd ?? '';
+	const dirs = walkUp(options?.cwd ?? '', options);
 	const len = names.length;
-	
-	for (dir of walkUp(start, options)) {
+
+	for (let i = 0, l = dirs.length; i < l; i++) {
+		const dir = dirs[i];
+
 		for (let j = 0; j < len; j++) {
 			const tmp = join(dir, names[j]);
 			if (existsSync(tmp)) return tmp;
