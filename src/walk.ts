@@ -26,7 +26,9 @@ export type Options = {
  */
 export function up(base: string, options?: Options): string[] {
 	const cwd = options?.cwd;
-	const stop = typeof options?.stop === 'undefined' ? null : absolute(options.stop, cwd);
+	const stop = typeof options?.stop === 'undefined'
+		? null
+		: absolute(options.stop, cwd);
 
 	let tmp = absolute(base, cwd), prev: string;
 	const arr: string[] = [];
@@ -36,14 +38,12 @@ export function up(base: string, options?: Options): string[] {
 		prev = tmp;
 		tmp = dirname(prev);
 	} while (tmp !== prev);
-		
-	else if (tmp === stop) return arr;
-		
-	else do {
+
+	else if (tmp !== stop) do {
 		arr.push(tmp);
 		prev = tmp;
 		tmp = dirname(prev);
-	} while (tmp === prev && tmp !== stop);
+	} while (tmp !== prev && tmp !== stop);
 
 	return arr;
 }
