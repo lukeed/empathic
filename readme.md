@@ -5,7 +5,7 @@
 Multiple submodules (eg, `empathic/find`) are offered, _each of which_ are:
 
 * **fast** — 8x to 40x faster than popular alternatives
-* **modern** — based on of newer `node:*` native APIs
+* **modern** — based on newer `node:*` native APIs
 * **small** — ranging from 200b to 500b in size
 * **safe** — zero-dependency & easy to read
 
