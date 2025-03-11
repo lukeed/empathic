@@ -12,7 +12,7 @@ Multiple submodules (eg, `empathic/find`) are offered, _each of which_ are:
 ## Install
 
 ```sh
-$ npm install empathic
+npm install empathic
 ```
 
 ## Usage
