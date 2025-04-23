@@ -18,6 +18,9 @@ if (!existsSync(outdir)) {
 
 // tests assume "fixtures" in CWD
 // -> there for bench & Deno runner
+if (existsSync(join(outdir, 'fixtures'))) {
+	await Deno.remove(join(outdir, 'fixtures'), { recursive: true });
+}
 await cp('fixtures', outdir);
 
 for (let item of await readdir(src)) {
@@ -30,7 +33,7 @@ async function transform(filename: string) {
 	let entry = join(src, filename);
 	let source = await Deno.readTextFile(entry);
 
-	let esm = oxc.transform(entry, source);
+	let esm = oxc.transform(entry, source, { target: 'node16' });
 	if (esm.errors.length > 0) {
 		console.error('[oxc] error(s)\n', esm.errors.join(''));
 		Deno.exit(1);
