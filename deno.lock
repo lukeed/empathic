@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "npm:@types/node@*": "22.12.0",
     "npm:escalade@3.2.0": "3.2.0",
     "npm:find-cache-dir@5.0": "5.0.0",
     "npm:find-up-simple@1.0.0": "1.0.0",
@@ -10,7 +11,6 @@
     "npm:oxc-transform@0.66": "0.66.0",
     "npm:package-up@5.0": "5.0.0",
     "npm:pkg-dir@8.0": "8.0.0",
-    "npm:pkg-up@5.0": "5.0.0",
     "npm:resolve-cwd@3.0": "3.0.0",
     "npm:resolve-from@5.0": "5.0.0",
     "npm:uvu@0.5": "0.5.6"
@@ -113,6 +113,12 @@
       "integrity": "sha512-6+7nlbMVX/PVDCwaIQ8nTOPveOcFLSt8GcXdx8hD0bt39uWxYT88uXzqTd4fTvqta7oeUJqudepapKNt2DYJFw==",
       "dependencies": [
         "tslib"
+      ]
+    },
+    "@types/node@22.12.0": {
+      "integrity": "sha512-Fll2FZ1riMjNmlmJOdAyY5pUbkftXslB5DgEzlIuNaiWhXd00FhWxVC/r4yV/4wBb9JfImTu+jiSvXTkJ7F/gA==",
+      "dependencies": [
+        "undici-types"
       ]
     },
     "common-path-prefix@3.0.0": {
@@ -227,12 +233,6 @@
         "find-up-simple"
       ]
     },
-    "pkg-up@5.0.0": {
-      "integrity": "sha512-NbJJ+WABU/AKhl3ooFwMc3+dQi0StEYrFj1g+D7BlaE07pL98rBLP21XMfNyGlckzHOt4onU5OuLE1GNkQqVsA==",
-      "dependencies": [
-        "find-up@6.3.0"
-      ]
-    },
     "resolve-cwd@3.0.0": {
       "integrity": "sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==",
       "dependencies": [
@@ -250,6 +250,9 @@
     },
     "tslib@2.8.1": {
       "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="
+    },
+    "undici-types@6.20.0": {
+      "integrity": "sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg=="
     },
     "unicorn-magic@0.1.0": {
       "integrity": "sha512-lRfVq8fE8gz6QMBuDM6a+LO3IAzTi05H6gCVaUpir2E1Rwpo4ZUog45KpNXKC/Mn3Yb9UDuHumeFTo9iV/D9FQ=="
