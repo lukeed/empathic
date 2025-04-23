@@ -1,5 +1,6 @@
 {
 	"version": "0.0.0",
+	"nodeModulesDir": "auto",
 	"tasks": {
 		"build": "deno run -A scripts/build.ts",
 		"pretest": "deno run -A scripts/pretest.ts",

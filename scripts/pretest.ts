@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { cp, readdir } from 'node:fs/promises';
 
-import oxc from 'npm:oxc-transform@^0.25';
+import oxc from 'npm:oxc-transform@^0.30';
 
 // Transform all the test files
 // NOTE: must be w/ `build` for tests to work~!
@@ -40,5 +40,5 @@ async function transform(filename: string) {
 	let outfile = join(outdir, target);
 
 	Quiet || console.log('> writing "%s" file', target);
-	await Deno.writeTextFile(outfile, esm.sourceText);
+	await Deno.writeTextFile(outfile, esm.code);
 }
