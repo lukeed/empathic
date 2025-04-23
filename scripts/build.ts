@@ -43,8 +43,8 @@ async function transform(filename: string) {
 	let source = await Deno.readTextFile(entry);
 
 	let xform = oxc.transform(entry, source, {
-		lang: "ts",
-		target: "node16",
+		lang: 'ts',
+		target: 'node16',
 		typescript: {
 			onlyRemoveTypeImports: true,
 			declaration: {
