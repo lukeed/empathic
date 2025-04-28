@@ -6,8 +6,8 @@
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import oxc from 'npm:oxc-transform@^0.66';
-import { minify } from 'npm:oxc-minify@^0.66';
+import oxc from 'npm:oxc-transform@0.67.0';
+import { minify } from 'npm:oxc-minify@0.67.0';
 
 const Quiet = Deno.args.includes('--quiet');
 
@@ -45,6 +45,7 @@ async function transform(filename: string) {
 	let xform = oxc.transform(entry, source, {
 		lang: 'ts',
 		target: 'node16',
+		sourceType: 'module',
 		typescript: {
 			onlyRemoveTypeImports: true,
 			declaration: {
@@ -72,13 +73,12 @@ async function transform(filename: string) {
 	try {
 		let min = minify(esm, xform.code, {
 			mangle: { toplevel: true },
-			compress: { target: 'es2020' },
 		});
-		if (!min.code) throw 1;
+		if (!min.code) throw new Error('minify failed');
 
 		log('::notice::%s (%d b)', esm, min.code.length);
 	} catch (err) {
-		bail('terser', err);
+		bail('minify', [(err as Error).message]);
 	}
 }
 
