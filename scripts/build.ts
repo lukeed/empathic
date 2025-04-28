@@ -6,8 +6,8 @@
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import oxc from 'npm:oxc-transform@^0.30';
-import { minify } from 'npm:terser@5.31';
+import oxc from 'npm:oxc-transform@^0.66';
+import { minify } from 'npm:oxc-minify@^0.66';
 
 const Quiet = Deno.args.includes('--quiet');
 
@@ -43,6 +43,8 @@ async function transform(filename: string) {
 	let source = await Deno.readTextFile(entry);
 
 	let xform = oxc.transform(entry, source, {
+		lang: 'ts',
+		target: 'node16',
 		typescript: {
 			onlyRemoveTypeImports: true,
 			declaration: {
@@ -52,7 +54,7 @@ async function transform(filename: string) {
 	});
 
 	if (xform.errors.length > 0) {
-		bail('transform', xform.errors);
+		bail('transform', xform.errors.map((err) => err.message));
 	}
 
 	let rgx = /\.tsx?$/;
@@ -68,12 +70,9 @@ async function transform(filename: string) {
 	await Deno.writeTextFile(outfile, xform.code);
 
 	try {
-		let min = await minify(xform.code, {
-			ecma: 2020,
-			mangle: true,
-			compress: true,
-			toplevel: true,
-			module: true,
+		let min = minify(esm, xform.code, {
+			mangle: { toplevel: true },
+			compress: { target: 'es2020' },
 		});
 		if (!min.code) throw 1;
 
