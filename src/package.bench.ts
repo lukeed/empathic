@@ -1,6 +1,7 @@
 import { dirname, resolve } from 'node:path';
 import * as pkg from './package.ts';
 
+import { pkgUp, pkgUpSync } from 'npm:pkg-up@5.0';
 import { packageUp, packageUpSync } from 'npm:package-up@5.0';
 import { packageDirectory, packageDirectorySync } from 'npm:pkg-dir@8.0';
 
@@ -23,6 +24,26 @@ Deno.bench({
 	name: 'package-up (sync)',
 	fn() {
 		let _ = packageUpSync({
+			cwd: start,
+		});
+	},
+});
+
+Deno.bench({
+	group: 'pkg-up',
+	name: 'pkg-up',
+	async fn() {
+		let _ = await pkgUp({
+			cwd: start,
+		});
+	},
+});
+
+Deno.bench({
+	group: 'pkg-up',
+	name: 'pkg-up (sync)',
+	fn() {
+		let _ = pkgUpSync({
 			cwd: start,
 		});
 	},
