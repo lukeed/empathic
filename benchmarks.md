@@ -34,6 +34,8 @@ _**Walk `6` parent directories before finding the `one` target**_
 ```
 file:///.../empathic/src/find.bench.ts
 
+benchmark               time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+----------------------- ----------------------------- --------------------- --------------------------
 find-up                        189.1 µs         5,289 (161.9 µs …   3.4 ms) 188.8 µs 367.2 µs 628.3 µs
 find-up-simple                 141.7 µs         7,059 (128.4 µs … 723.9 µs) 144.3 µs 161.0 µs 171.5 µs
 find-up-simple (sync)           66.5 µs        15,050 ( 62.5 µs … 282.4 µs)  66.4 µs  74.2 µs  84.2 µs
