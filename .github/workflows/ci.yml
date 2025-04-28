@@ -4,12 +4,12 @@ on:
   pull_request:
   push:
     branches:
-      - "**"
+      - '**'
     tags:
-      - "v**"
+      - 'v**'
 
 env:
-  DENO_VERSION: 1.46
+  DENO_VERSION: 2.2
 
 jobs:
   health:
@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
@@ -37,34 +37,34 @@ jobs:
       matrix:
         nodejs: [16, 18, 20, 22]
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.nodejs }}
-    - uses: denoland/setup-deno@v1
-      with:
-        deno-version: ${{ env.DENO_VERSION }}
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.nodejs }}
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: ${{ env.DENO_VERSION }}
 
-    - name: Prepare
-      run: |
-        deno task fixtures
-        deno task build --quiet
-        deno task pretest --quiet
+      - name: Prepare
+        run: |
+          deno task fixtures
+          deno task build --quiet
+          deno task pretest --quiet
 
-    - name: Install
-      working-directory: npm
-      run: npm install
+      - name: Install
+        working-directory: npm
+        run: npm install
 
-    - name: Run Tests
-      working-directory: npm
-      run: npm test
+      - name: Run Tests
+        working-directory: npm
+        run: npm test
 
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
@@ -76,7 +76,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ env.DENO_VERSION }}
 
@@ -98,7 +98,7 @@ jobs:
       id-token: write # -> authentication
     steps:
       - uses: actions/checkout@v4
-      - uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         with:
           deno-version: ${{ env.DENO_VERSION }}
       - uses: actions/setup-node@v4
@@ -113,14 +113,14 @@ jobs:
       #   if: ${{ !contains(github.ref, '-next.') }}
       #   run: deno publish --no-check -c jsr.json
 
-      - name: "Publish → npm"
+      - name: 'Publish → npm'
         if: ${{ !contains(github.ref, '-next.') }}
         run: npm publish --provenance --access public
         working-directory: ./npm
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: "Publish → npm (pre-release)"
+      - name: 'Publish → npm (pre-release)'
         if: ${{ contains(github.ref, '-next.') }}
         run: npm publish --tag next --provenance --access public
         working-directory: ./npm

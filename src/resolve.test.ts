@@ -7,6 +7,11 @@ import { pathToFileURL } from 'node:url';
 
 import * as resolve from 'empathic/resolve';
 
+type RequireError = Error & {
+	code: string;
+	requireStack: string[];
+};
+
 type Builder = (it: Test) => unknown;
 function describe(name: string, builder: Builder) {
 	let it = suite(name);
@@ -50,10 +55,10 @@ describe('resolve.from', (it) => {
 		} catch (err) {
 			assert.instance(err, Error);
 
-			let { code, requireStack } = err;
+			let { code, message, requireStack } = err as RequireError;
 
 			assert.is(code, 'MODULE_NOT_FOUND');
-			assert.match(err.message, "Cannot find module 'foobar'");
+			assert.match(message, "Cannot find module 'foobar'");
 			// NOTE: the "noop.js" is added internally (lol) because its a dir
 			assert.equal(requireStack, [path.resolve('fixtures/noop.js')]);
 		}
@@ -107,11 +112,11 @@ describe('resolve.cwd', (it) => {
 			let _ = resolve.cwd('foobar');
 			assert.unreachable('should have thrown');
 		} catch (err) {
-			let { code, requireStack } = err;
+			let { code, message, requireStack } = err as RequireError;
 
 			assert.instance(err, Error);
 			assert.is(code, 'MODULE_NOT_FOUND');
-			assert.match(err.message, "Cannot find module 'foobar'");
+			assert.match(message, "Cannot find module 'foobar'");
 			// NOTE: the "noop.js" is added internally (lol) because its a dir
 			assert.equal(requireStack, [path.resolve('noop.js')]);
 		}
