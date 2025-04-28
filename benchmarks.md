@@ -47,7 +47,6 @@ summary
      9.53x faster than find-up-simple (sync)
     20.30x faster than find-up-simple
     27.10x faster than find-up
-    30.08x faster than find.up (alt)
     33.20x faster than escalade
 ```
 
@@ -69,7 +68,6 @@ summary
     11.59x faster than find-up-simple (sync)
     23.52x faster than find-up-simple
     28.94x faster than find-up
-    31.86x faster than find.up (alt)
     33.37x faster than escalade
 ```
 
@@ -91,7 +89,6 @@ summary
     13.09x faster than find-up-simple (sync)
     24.36x faster than find-up-simple
     30.26x faster than find-up
-    41.02x faster than find.up (alt)
     42.56x faster than escalade
 ```
 
