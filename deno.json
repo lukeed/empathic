@@ -4,8 +4,7 @@
 	"tasks": {
 		"build": "deno run -A scripts/build.ts",
 		"pretest": "deno run -A scripts/pretest.ts",
-		"fixtures": "deno run -RW scripts/fixtures.ts",
-		"regenerate-lockfile": "rm -f deno.lock && deno install --entrypoint src/* scripts/*"
+		"fixtures": "deno run -RW scripts/fixtures.ts"
 	},
 	"imports": {
 		"empathic/access": "./src/access.ts",

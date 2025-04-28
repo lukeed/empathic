@@ -39,7 +39,6 @@
 		"node": ">=16"
 	},
 	"devDependencies": {
-		"@types/node": "^22",
 		"uvu": "0.5"
 	}
 }
