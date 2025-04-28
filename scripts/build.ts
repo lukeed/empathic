@@ -60,7 +60,7 @@ async function transform(filename: string) {
 
 	let rgx = /\.tsx?$/;
 	let esm = filename.replace(rgx, '.mjs');
-	let dts = filename.replace(rgx, '.d.mts');
+	let dts = filename.replace(rgx, '.d.ts');
 
 	let outfile = join(outdir, dts);
 	log('> writing "%s" file', dts);
