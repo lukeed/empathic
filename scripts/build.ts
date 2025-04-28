@@ -8,6 +8,7 @@ import { join, resolve } from 'node:path';
 
 import oxc from 'npm:oxc-transform@0.67.0';
 import { minify } from 'npm:oxc-minify@0.67.0';
+import * as CommonJS from './commonjs.ts';
 
 const Quiet = Deno.args.includes('--quiet');
 
@@ -59,6 +60,7 @@ async function transform(filename: string) {
 	}
 
 	let rgx = /\.tsx?$/;
+	let cjs = filename.replace(rgx, '.js');
 	let esm = filename.replace(rgx, '.mjs');
 	let dts = filename.replace(rgx, '.d.ts');
 
@@ -69,6 +71,12 @@ async function transform(filename: string) {
 	outfile = join(outdir, esm);
 	log('> writing "%s" file', esm);
 	await Deno.writeTextFile(outfile, xform.code);
+
+	// esm -> cjs
+	outfile = join(outdir, cjs);
+	log('> writing "%s" file', cjs);
+	let tmp = CommonJS.transform(xform.code);
+	await Deno.writeTextFile(outfile, tmp);
 
 	try {
 		let min = minify(esm, xform.code, {
