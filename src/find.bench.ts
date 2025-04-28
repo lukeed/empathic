@@ -34,6 +34,9 @@ const Candidates = {
 	'find-up-simple'(target: string) {
 		return simple.findUp(target, { cwd: start });
 	},
+	'find-up-simple-sync'(target: string) {
+		return simple.findUpSync(target, { cwd: start });
+	},
 	'escalade'(target: string) {
 		return escalade(start, (_, items) => {
 			return items.includes(target) && target;
@@ -69,6 +72,14 @@ for (let name in Benches) {
 		name: 'find-up-simple',
 		async fn() {
 			let _ = await Candidates['find-up-simple'](input);
+		},
+	});
+
+	Deno.bench({
+		group: name,
+		name: 'find-up-simple (sync)',
+		fn() {
+			let _ = Candidates['find-up-simple-sync'](input);
 		},
 	});
 

@@ -1,7 +1,7 @@
 import { join, resolve } from 'node:path';
 
 import escalade from 'npm:escalade@3.2.0';
-import { locatePath } from 'npm:locate-path@7.2';
+import { locatePath, locatePathSync } from 'npm:locate-path@7.2';
 import { findUpMultiple, findUpMultipleSync } from 'npm:find-up@7.0.0';
 
 import * as find from './find.ts';
@@ -29,6 +29,14 @@ const Candidates = {
 			cwd: start,
 			type: 'file',
 			preserveOrder: true,
+			allowSymlinks: false,
+		});
+	},
+
+	'locate-path (sync)'(target: string[]) {
+		return locatePathSync([...target], {
+			cwd: start,
+			type: 'file',
 			allowSymlinks: false,
 		});
 	},
@@ -79,6 +87,14 @@ for (let k in Benches) {
 		name: 'locate-path',
 		async fn() {
 			let _ = await Candidates['locate-path']([...input]);
+		},
+	});
+
+	Deno.bench({
+		group: k,
+		name: 'locate-path (sync)',
+		fn() {
+			let _ = Candidates['locate-path (sync)']([...input]);
 		},
 	});
 
