@@ -12,23 +12,23 @@
 	"exports": {
 		"./access": {
 			"types": "./access.d.mts",
-			"import": "./access.mjs"
+			"default": "./access.mjs"
 		},
 		"./find": {
 			"types": "./find.d.mts",
-			"import": "./find.mjs"
+			"default": "./find.mjs"
 		},
 		"./package": {
 			"types": "./package.d.mts",
-			"import": "./package.mjs"
+			"default": "./package.mjs"
 		},
 		"./resolve": {
 			"types": "./resolve.d.mts",
-			"import": "./resolve.mjs"
+			"default": "./resolve.mjs"
 		},
 		"./walk": {
 			"types": "./walk.d.mts",
-			"import": "./walk.mjs"
+			"default": "./walk.mjs"
 		},
 		"./package.json": "./package.json"
 	},
