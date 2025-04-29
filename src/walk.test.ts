@@ -42,7 +42,7 @@ describe('walk.up', (it) => {
 		assert.is(parents[3], resolve('fixtures'));
 		assert.is(parents[4], resolve('.'));
 		// total chain length unknown
-		assert.is(parents.at(-1), resolve('/'));
+		assert.is(parents[parents.length - 1], resolve('/'));
 	});
 
 	it('should resolve from `options.cwd` if input not absolute', () => {
@@ -66,7 +66,7 @@ describe('walk.up', (it) => {
 			stop: fixtures,
 		});
 
-		assert.is(output.at(-1), join(fixtures, 'a'));
+		assert.is(output[output.length - 1], join(fixtures, 'a'));
 	});
 
 	it('should return nothing if stop === start', () => {
@@ -85,7 +85,7 @@ describe('walk.up', (it) => {
 		assert.is(output[0], resolve('fixtures/a/b/c'));
 		assert.is(output[1], resolve('fixtures/a/b'));
 		assert.is(output[2], resolve('fixtures/a'));
-		assert.is(output.at(-1), resolve('/'));
+		assert.is(output[output.length - 1], resolve('/'));
 
 		assert.equal(output, parents);
 	});

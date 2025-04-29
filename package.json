@@ -41,7 +41,7 @@
 		"test": "uvu"
 	},
 	"engines": {
-		"node": ">=16"
+		"node": ">=14"
 	},
 	"devDependencies": {
 		"uvu": "0.5"

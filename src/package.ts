@@ -35,7 +35,7 @@ export function cache(
 	name: string,
 	options?: find.Options & { create?: boolean },
 ): string | undefined {
-	options ||= {};
+	options = options || {};
 
 	let dir = env.CACHE_DIR;
 
