@@ -51,7 +51,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'pkg-up',
-	name: 'package.up (sync)',
+	name: 'empathic/package.up (sync)',
 	fn() {
 		let _ = pkg.up({
 			cwd: start,
@@ -84,7 +84,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'pkg-dir',
-	name: 'package.up (sync)',
+	name: 'empathic/package.up (sync)',
 	fn() {
 		let tmp = pkg.up({ cwd: start });
 		if (tmp) tmp = dirname(tmp);
@@ -108,7 +108,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'find-cache-dir',
-	name: 'package.cache ',
+	name: 'empathic/package.cache ',
 	fn() {
 		let _ = pkg.cache('foobar', {
 			create: false,

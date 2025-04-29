@@ -18,7 +18,7 @@ function alt1(base: string) {
 	}
 }
 
-Deno.bench('walk.up (no options)', () => {
+Deno.bench('empathic/walk.up (no options)', () => {
 	let total = 0;
 	// let items = walk.up(start);
 	// console.log('> items', items);
@@ -27,7 +27,7 @@ Deno.bench('walk.up (no options)', () => {
 	}
 });
 
-Deno.bench('walk.up', () => {
+Deno.bench('empathic/walk.up', () => {
 	let total = 0;
 	for (let _ of walk.up(start)) {
 		total += 1;

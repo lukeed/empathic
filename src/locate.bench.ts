@@ -132,7 +132,7 @@ for (let k in Benches) {
 
 	Deno.bench({
 		group: k,
-		name: 'find.any (sync)',
+		name: 'empathic/find.any (sync)',
 		fn() {
 			let _ = Candidates['find.any (sync)']([...input]);
 		},

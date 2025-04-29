@@ -16,7 +16,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'resolve-from',
-	name: 'resolve.from',
+	name: 'empathic/resolve.from',
 	fn() {
 		let _ = resolve.from(start, './resolved.js');
 	},
@@ -32,7 +32,7 @@ Deno.bench({
 
 Deno.bench({
 	group: 'resolve-cwd',
-	name: 'resolve.cwd',
+	name: 'empathic/resolve.cwd',
 	fn() {
 		let _ = resolve.cwd('./fixtures/a/b/c/resolved.js');
 	},

@@ -17,7 +17,7 @@ GitHub Actions run on different hardware.
 
 ```
     CPU | Apple M1 Max
-Runtime | Deno 1.46.2 (aarch64-apple-darwin)
+Runtime | Deno 2.2.12 (aarch64-apple-darwin)
 ```
 
 A best-effort is made, wherever possible, to ensure fair comparison.
@@ -34,20 +34,21 @@ _**Walk `6` parent directories before finding the `one` target**_
 ```
 file:///.../empathic/src/find.bench.ts
 
-benchmark               time/iter (avg)        iter/s      (min … max)           p75      p99     p995
------------------------ ----------------------------- --------------------- --------------------------
-find-up                        189.1 µs         5,289 (161.9 µs …   3.4 ms) 188.8 µs 367.2 µs 628.3 µs
-find-up-simple                 141.7 µs         7,059 (128.4 µs … 723.9 µs) 144.3 µs 161.0 µs 171.5 µs
-find-up-simple (sync)           66.5 µs        15,050 ( 62.5 µs … 282.4 µs)  66.4 µs  74.2 µs  84.2 µs
-escalade                       231.6 µs         4,317 (217.8 µs … 519.1 µs) 233.7 µs 278.8 µs 305.8 µs
-find.up (sync)                   7.0 µs       143,300 (  6.9 µs …   7.0 µs)   7.0 µs   7.0 µs   7.0 µs
+benchmark                 time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+------------------------- ----------------------------- --------------------- --------------------------
+group level-6
+find-up                          191.4 µs         5,223 (165.6 µs …   3.7 ms) 190.8 µs 359.9 µs 564.5 µs
+find-up-simple                   142.1 µs         7,038 (129.5 µs …   1.0 ms) 144.5 µs 166.2 µs 178.1 µs
+find-up-simple (sync)             67.8 µs        14,750 ( 64.5 µs … 290.1 µs)  67.4 µs  77.3 µs  83.3 µs
+escalade                         231.8 µs         4,314 (219.3 µs … 382.5 µs) 233.8 µs 274.5 µs 293.8 µs
+empathic/find.up (sync)            7.0 µs       142,200 (  7.0 µs …   7.1 µs)   7.0 µs   7.1 µs   7.1 µs
 
 summary
-  find.up (sync)
-     9.53x faster than find-up-simple (sync)
-    20.30x faster than find-up-simple
-    27.10x faster than find-up
-    33.20x faster than escalade
+  empathic/find.up (sync)
+     9.64x faster than find-up-simple (sync)
+    20.21x faster than find-up-simple
+    27.23x faster than find-up
+    32.97x faster than escalade
 ```
 
 _**Walk `10` parent directories before finding the `one` target**_
@@ -55,20 +56,20 @@ _**Walk `10` parent directories before finding the `one` target**_
 ```
 file:///.../empathic/src/find.bench.ts
 
-benchmark               time/iter (avg)        iter/s      (min … max)           p75      p99     p995
------------------------ ----------------------------- --------------------- --------------------------
-find-up                        431.9 µs         2,315 (390.6 µs …   2.8 ms) 432.0 µs 522.8 µs   1.3 ms
-find-up-simple                 351.0 µs         2,849 (321.7 µs …   1.5 ms) 355.5 µs 380.0 µs 410.0 µs
-find-up-simple (sync)          173.0 µs         5,781 (168.5 µs … 525.9 µs) 173.9 µs 188.9 µs 207.0 µs
-escalade                       497.9 µs         2,009 (477.0 µs … 869.6 µs) 501.3 µs 546.4 µs 565.7 µs
-find.up (sync)                  14.9 µs        67,020 ( 14.7 µs … 361.1 µs)  14.9 µs  15.5 µs  15.8 µs
+benchmark                 time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+------------------------- ----------------------------- --------------------- --------------------------
+find-up                          435.2 µs         2,298 (396.8 µs …   2.9 ms) 432.9 µs 572.1 µs   1.3 ms
+find-up-simple                   353.0 µs         2,833 (325.7 µs …   1.6 ms) 357.5 µs 401.1 µs 430.0 µs
+find-up-simple (sync)            175.7 µs         5,691 (170.3 µs … 498.9 µs) 176.8 µs 195.1 µs 204.4 µs
+escalade                         503.2 µs         1,987 (477.3 µs … 796.6 µs) 506.1 µs 578.8 µs 653.8 µs
+empathic/find.up (sync)           15.1 µs        66,280 ( 14.8 µs … 370.8 µs)  15.0 µs  16.0 µs  17.6 µs
 
 summary
-  find.up (sync)
-    11.59x faster than find-up-simple (sync)
-    23.52x faster than find-up-simple
-    28.94x faster than find-up
-    33.37x faster than escalade
+  empathic/find.up (sync)
+    11.65x faster than find-up-simple (sync)
+    23.40x faster than find-up-simple
+    28.84x faster than find-up
+    33.35x faster than escalade
 ```
 
 _**Walk `15+` parent directories, never finding the `one` target**_
@@ -76,20 +77,20 @@ _**Walk `15+` parent directories, never finding the `one` target**_
 ```
 file:///.../empathic/src/find.bench.ts
 
-benchmark               time/iter (avg)        iter/s      (min … max)           p75      p99     p995
------------------------ ----------------------------- --------------------- --------------------------
-find-up                        592.7 µs         1,687 (553.1 µs …   2.2 ms) 591.2 µs 648.0 µs   1.5 ms
-find-up-simple                 477.2 µs         2,095 (446.4 µs …   1.9 ms) 480.0 µs 511.5 µs 521.8 µs
-find-up-simple (sync)          256.4 µs         3,900 (251.0 µs … 610.8 µs) 256.4 µs 283.3 µs 305.0 µs
-escalade                       833.7 µs         1,199 (800.3 µs …   1.2 ms) 839.2 µs 970.8 µs   1.1 ms
-find.up (sync)                  19.6 µs        51,050 ( 19.2 µs … 427.3 µs)  19.5 µs  20.7 µs  22.4 µs
+benchmark                 time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+------------------------- ----------------------------- --------------------- --------------------------
+find-up                          596.4 µs         1,677 (552.9 µs …   2.6 ms) 592.3 µs 665.1 µs   1.7 ms
+find-up-simple                   478.6 µs         2,090 (445.5 µs …   1.8 ms) 481.8 µs 520.2 µs 536.9 µs
+find-up-simple (sync)            255.3 µs         3,917 (251.3 µs … 606.4 µs) 255.2 µs 272.4 µs 287.1 µs
+escalade                         829.7 µs         1,205 (804.9 µs …   1.2 ms) 833.9 µs 944.8 µs   1.1 ms
+empathic/find.up (sync)           19.5 µs        51,350 ( 19.1 µs … 451.0 µs)  19.3 µs  20.5 µs  21.8 µs
 
 summary
-  find.up (sync)
-    13.09x faster than find-up-simple (sync)
-    24.36x faster than find-up-simple
-    30.26x faster than find-up
-    42.56x faster than escalade
+  empathic/find.up (sync)
+    13.11x faster than find-up-simple (sync)
+    24.58x faster than find-up-simple
+    30.62x faster than find-up
+    42.61x faster than escalade
 ```
 
 ### `find.any`
@@ -102,24 +103,24 @@ _**Walk `6` parent directories before finding **any of** the targets**_
 ```
 file:///.../empathic/src/locate.bench.ts
 
-benchmark             time/iter (avg)        iter/s      (min … max)           p75      p99     p995
---------------------- ----------------------------- --------------------- --------------------------
-locate-path                  106.8 µs         9,363 ( 78.7 µs …   3.1 ms) 107.6 µs 243.7 µs 282.2 µs
-locate-path (sync)            98.4 µs        10,170 ( 90.2 µs … 374.5 µs)  99.0 µs 116.0 µs 127.8 µs
-locate-path (order)          106.1 µs         9,424 ( 77.3 µs … 983.8 µs) 108.4 µs 147.5 µs 313.4 µs
-find-up                        1.7 ms           571 (  1.6 ms …   2.2 ms)   1.7 ms   2.1 ms   2.1 ms
-find-up (sync)                 1.8 ms           552 (  1.5 ms …   2.2 ms)   1.9 ms   2.1 ms   2.1 ms
-escalade                     235.8 µs         4,242 (220.4 µs … 483.5 µs) 237.5 µs 313.0 µs 361.0 µs
-find.any (sync)               47.3 µs        21,160 ( 46.2 µs … 301.9 µs)  47.0 µs  52.5 µs  58.7 µs
+benchmark                  time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+-------------------------- ----------------------------- --------------------- --------------------------
+locate-path                       107.9 µs         9,266 ( 79.4 µs …   3.0 ms) 108.0 µs 246.5 µs 293.6 µs
+locate-path (sync)                 99.4 µs        10,060 ( 88.3 µs … 456.4 µs) 100.7 µs 112.5 µs 119.7 µs
+locate-path (order)               107.1 µs         9,338 ( 81.7 µs …   1.0 ms) 109.1 µs 144.9 µs 303.7 µs
+find-up                             1.8 ms           569 (  1.6 ms …   2.3 ms)   1.8 ms   2.2 ms   2.2 ms
+find-up (sync)                      1.8 ms           547 (  1.5 ms …   2.2 ms)   2.0 ms   2.1 ms   2.1 ms
+escalade                          234.6 µs         4,263 (222.3 µs … 396.8 µs) 237.2 µs 290.1 µs 315.0 µs
+empathic/find.any (sync)           48.3 µs        20,690 ( 46.5 µs …   1.0 ms)  47.2 µs  61.5 µs 134.4 µs
 
 summary
-  find.any (sync)
-     2.08x faster than locate-path (sync)
-     2.25x faster than locate-path (order)
-     2.26x faster than locate-path
-     4.99x faster than escalade
-    37.02x faster than find-up
-    38.33x faster than find-up (sync)
+  empathic/find.any (sync)
+     2.06x faster than locate-path (sync)
+     2.22x faster than locate-path (order)
+     2.23x faster than locate-path
+     4.85x faster than escalade
+    36.37x faster than find-up
+    37.82x faster than find-up (sync)
 ```
 
 _**Walk `10` parent directories before finding **any of** the targets**_
@@ -127,24 +128,24 @@ _**Walk `10` parent directories before finding **any of** the targets**_
 ```
 file:///.../empathic/src/locate.bench.ts
 
-benchmark             time/iter (avg)        iter/s      (min … max)           p75      p99     p995
---------------------- ----------------------------- --------------------- --------------------------
-locate-path                  106.8 µs         9,361 ( 80.2 µs …   1.8 ms) 108.6 µs 139.9 µs 151.6 µs
-locate-path (sync)           105.6 µs         9,471 ( 97.2 µs … 744.1 µs) 110.2 µs 119.5 µs 123.3 µs
-locate-path (order)          105.7 µs         9,459 ( 80.9 µs … 801.0 µs) 108.5 µs 136.0 µs 146.1 µs
-find-up                        1.8 ms           562 (  1.6 ms …   2.5 ms)   1.8 ms   2.4 ms   2.4 ms
-find-up (sync)                 2.0 ms           502 (  1.9 ms …   2.5 ms)   2.0 ms   2.2 ms   2.5 ms
-escalade                     501.9 µs         1,993 (479.8 µs … 733.2 µs) 505.6 µs 570.6 µs 584.2 µs
-find.any (sync)              102.3 µs         9,770 (101.0 µs … 402.4 µs) 101.9 µs 108.6 µs 116.1 µs
+benchmark                  time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+-------------------------- ----------------------------- --------------------- --------------------------
+locate-path                       108.0 µs         9,260 ( 83.4 µs …   2.0 ms) 109.5 µs 144.2 µs 154.7 µs
+locate-path (sync)                106.7 µs         9,376 ( 98.6 µs … 814.2 µs) 111.5 µs 119.0 µs 122.9 µs
+locate-path (order)               106.3 µs         9,406 ( 82.0 µs … 770.7 µs) 108.9 µs 135.4 µs 149.1 µs
+find-up                             1.8 ms           561 (  1.7 ms …   2.5 ms)   1.8 ms   2.5 ms   2.5 ms
+find-up (sync)                      2.0 ms           497 (  2.0 ms …   2.7 ms)   2.0 ms   2.2 ms   2.5 ms
+escalade                          503.5 µs         1,986 (481.2 µs … 824.8 µs) 507.8 µs 560.5 µs 590.1 µs
+empathic/find.any (sync)          102.7 µs         9,736 (100.9 µs … 363.5 µs) 102.0 µs 110.9 µs 116.9 µs
 
 summary
-  find.any (sync)
-     1.03x faster than locate-path (sync)
+  empathic/find.any (sync)
      1.03x faster than locate-path (order)
-     1.04x faster than locate-path
+     1.04x faster than locate-path (sync)
+     1.05x faster than locate-path
      4.90x faster than escalade
-    17.39x faster than find-up
-    19.44x faster than find-up (sync)
+    17.35x faster than find-up
+    19.57x faster than find-up (sync)
 ```
 
 _**Walk `15+` parent directories, never finding **any of** the targets**_
@@ -152,24 +153,24 @@ _**Walk `15+` parent directories, never finding **any of** the targets**_
 ```
 file:///.../empathic/src/locate.bench.ts
 
-benchmark             time/iter (avg)        iter/s      (min … max)           p75      p99     p995
---------------------- ----------------------------- --------------------- --------------------------
-locate-path                  106.1 µs         9,426 ( 83.0 µs … 770.5 µs) 108.3 µs 138.5 µs 151.0 µs
-locate-path (sync)           111.9 µs         8,934 (108.3 µs … 740.8 µs) 112.4 µs 123.8 µs 127.5 µs
-locate-path (order)          105.6 µs         9,472 ( 81.9 µs … 807.8 µs) 108.3 µs 137.0 µs 151.5 µs
-find-up                        1.8 ms           565 (  1.7 ms …   2.6 ms)   1.8 ms   2.5 ms   2.5 ms
-find-up (sync)                 2.1 ms           468 (  2.1 ms …   3.0 ms)   2.1 ms   2.4 ms   2.7 ms
-escalade                     841.7 µs         1,188 (805.0 µs …   1.1 ms) 848.8 µs 989.9 µs   1.1 ms
-find.any (sync)              130.1 µs         7,684 (128.1 µs … 447.2 µs) 129.5 µs 137.2 µs 146.2 µs
+benchmark                  time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+-------------------------- ----------------------------- --------------------- --------------------------
+locate-path                       106.3 µs         9,404 ( 81.0 µs … 791.4 µs) 108.2 µs 144.5 µs 153.9 µs
+locate-path (sync)                112.3 µs         8,903 (109.1 µs … 902.2 µs) 112.5 µs 125.8 µs 128.5 µs
+locate-path (order)               105.6 µs         9,472 ( 81.5 µs … 935.8 µs) 108.4 µs 138.2 µs 149.6 µs
+find-up                             1.8 ms           565 (  1.6 ms …   2.6 ms)   1.8 ms   2.5 ms   2.5 ms
+find-up (sync)                      2.1 ms           469 (  2.1 ms …   3.0 ms)   2.1 ms   2.4 ms   2.6 ms
+escalade                          843.2 µs         1,186 (812.8 µs …   1.1 ms) 848.8 µs 946.2 µs   1.0 ms
+empathic/find.any (sync)          129.6 µs         7,718 (128.0 µs … 434.0 µs) 129.0 µs 139.5 µs 145.1 µs
 
 summary
   locate-path (order)
-     1.00x faster than locate-path
+     1.01x faster than locate-path
      1.06x faster than locate-path (sync)
-     1.23x faster than find.any (sync)
-     7.97x faster than escalade
-    16.75x faster than find-up
-    20.22x faster than find-up (sync)
+     1.23x faster than empathic/find.any (sync)
+     7.99x faster than escalade
+    16.74x faster than find-up
+    20.17x faster than find-up (sync)
 ```
 
 ## package
@@ -181,40 +182,40 @@ _**Find the nearest `package.json` file**_
 ```
 file:///.../empathic/src/package.bench.ts
 
-benchmark           time/iter (avg)        iter/s      (min … max)           p75      p99     p995
-------------------- ----------------------------- --------------------- --------------------------
-package-up                 237.0 µs         4,220 (217.3 µs …   2.4 ms) 241.0 µs 320.0 µs 342.7 µs
-package-up (sync)          116.9 µs         8,555 ( 88.7 µs … 242.3 µs) 124.0 µs 145.2 µs 169.9 µs
-pkg-up                     316.9 µs         3,155 (268.5 µs …   3.0 ms) 312.7 µs 751.1 µs 855.2 µs
-pkg-up (sync)              140.8 µs         7,105 (113.0 µs … 525.6 µs) 141.8 µs 155.2 µs 162.6 µs
-package.up (sync)           13.5 µs        74,320 ( 13.0 µs … 251.8 µs)  13.3 µs  15.1 µs  15.7 µs
+benchmark                    time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+---------------------------- ----------------------------- --------------------- --------------------------
+package-up                          271.4 µs         3,684 (249.6 µs … 414.1 µs) 277.3 µs 333.9 µs 365.2 µs
+package-up (sync)                   132.6 µs         7,542 (123.0 µs … 245.0 µs) 132.5 µs 162.9 µs 168.1 µs
+pkg-up                              354.2 µs         2,823 (311.0 µs …   3.6 ms) 353.1 µs 699.5 µs 793.8 µs
+pkg-up (sync)                       157.8 µs         6,337 (136.4 µs … 847.5 µs) 159.9 µs 176.3 µs 187.9 µs
+empathic/package.up (sync)           14.6 µs        68,280 ( 14.3 µs … 200.4 µs)  14.5 µs  15.8 µs  16.4 µs
 
 summary
-  package.up (sync)
-     8.69x faster than package-up (sync)
-    10.46x faster than pkg-up (sync)
-    17.61x faster than package-up
-    23.55x faster than pkg-up
+  empathic/package.up (sync)
+     9.05x faster than package-up (sync)
+    10.77x faster than pkg-up (sync)
+    18.53x faster than package-up
+    24.18x faster than pkg-up
 ```
 
 _**Get the directory path of the closest `package.json` file**_
 
-> **Note:** `package.up` passes its output to
+> **Note:** `empathic/package.up` passes its output to
 > [`path.dirname()`](https://nodejs.org/docs/latest/api/path.html#pathdirnamepath) for equality.
 
 ```
 file:///.../empathic/src/package.bench.ts
 
-benchmark           time/iter (avg)        iter/s      (min … max)           p75      p99     p995
-------------------- ----------------------------- --------------------- --------------------------
-pkg-dir                    232.3 µs         4,305 (213.8 µs … 537.5 µs) 233.5 µs 316.3 µs 340.8 µs
-pkg-dir (sync)             122.1 µs         8,188 (105.8 µs … 504.2 µs) 129.0 µs 133.0 µs 141.7 µs
-package.up (sync)           13.5 µs        74,140 ( 13.1 µs … 252.8 µs)  13.4 µs  14.7 µs  15.1 µs
+benchmark                    time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+---------------------------- ----------------------------- --------------------- --------------------------
+pkg-dir                             266.2 µs         3,756 (249.2 µs … 488.3 µs) 269.6 µs 298.4 µs 337.0 µs
+pkg-dir (sync)                      135.4 µs         7,383 (127.5 µs … 297.2 µs) 135.6 µs 149.5 µs 155.3 µs
+empathic/package.up (sync)           14.7 µs        68,080 ( 14.4 µs … 221.5 µs)  14.6 µs  15.8 µs  16.7 µs
 
 summary
-  package.up (sync)
-     9.05x faster than pkg-dir (sync)
-    17.22x faster than pkg-dir
+  empathic/package.up (sync)
+     9.22x faster than pkg-dir (sync)
+    18.12x faster than pkg-dir
 ```
 
 ### `package.cache`
@@ -224,14 +225,14 @@ _**Construct a `node_modules/.cache/<name>` directory for a package**_
 ```
 file:///.../empathic/src/package.bench.ts
 
-benchmark           time/iter (avg)        iter/s      (min … max)           p75      p99     p995
-------------------- ----------------------------- --------------------- --------------------------
-find-cache-dir             177.4 µs         5,638 (171.1 µs … 366.7 µs) 176.3 µs 194.5 µs 214.8 µs
-package.cache               17.9 µs        55,930 ( 17.4 µs … 271.5 µs)  17.7 µs  20.8 µs  21.8 µs
+benchmark                    time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+---------------------------- ----------------------------- --------------------- --------------------------
+find-cache-dir                      194.6 µs         5,138 (182.8 µs … 396.2 µs) 195.9 µs 208.5 µs 223.0 µs
+empathic/package.cache               20.0 µs        50,110 ( 19.5 µs … 227.3 µs)  19.8 µs  21.5 µs  23.9 µs
 
 summary
-  package.cache
-     9.92x faster than find-cache-dir
+  empathic/package.cache
+     9.75x faster than find-cache-dir
 ```
 
 ## resolve
@@ -243,14 +244,14 @@ summary
 ```
 file:///.../empathic/src/resolve.bench.ts
 
-benchmark      time/iter (avg)        iter/s      (min … max)           p75      p99     p995
--------------- ----------------------------- --------------------- --------------------------
-resolve-from           38.7 µs        25,810 ( 37.6 µs … 262.6 µs)  39.2 µs  43.0 µs  43.9 µs
-resolve.from           31.4 µs        31,860 ( 30.0 µs … 297.9 µs)  32.0 µs  35.7 µs  38.7 µs
+benchmark               time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+----------------------- ----------------------------- --------------------- --------------------------
+resolve-from                    36.9 µs        27,130 ( 35.6 µs … 213.0 µs)  36.8 µs  42.3 µs  46.1 µs
+empathic/resolve.from           27.7 µs        36,100 ( 26.5 µs … 275.9 µs)  27.7 µs  31.5 µs  35.0 µs
 
 summary
-  resolve.from
-     1.23x faster than resolve-from
+  empathic/resolve.from
+     1.33x faster than resolve-from
 ```
 
 ### `resolve.cwd`
@@ -260,14 +261,14 @@ summary
 ```
 file:///.../empathic/src/resolve.bench.ts
 
-benchmark      time/iter (avg)        iter/s      (min … max)           p75      p99     p995
--------------- ----------------------------- --------------------- --------------------------
-resolve-cwd            35.1 µs        28,500 ( 34.2 µs … 250.9 µs)  35.3 µs  39.0 µs  40.3 µs
-resolve.cwd            32.1 µs        31,160 ( 30.8 µs … 311.1 µs)  32.1 µs  37.5 µs  41.3 µs
+benchmark               time/iter (avg)        iter/s      (min … max)           p75      p99     p995
+----------------------- ----------------------------- --------------------- --------------------------
+resolve-cwd                     36.8 µs        27,160 ( 35.9 µs … 161.5 µs)  36.8 µs  41.5 µs  44.3 µs
+empathic/resolve.cwd            32.2 µs        31,030 ( 31.3 µs … 205.8 µs)  32.2 µs  35.8 µs  38.5 µs
 
 summary
-  resolve.cwd
-     1.09x faster than resolve-cwd
+  empathic/resolve.cwd
+     1.14x faster than resolve-cwd
 ```
 
 ## walk
@@ -277,5 +278,5 @@ file:///.../empathic/src/walk.bench.ts
 
 benchmark              time/iter (avg)        iter/s      (min … max)           p75      p99     p995
 ---------------------- ----------------------------- --------------------- --------------------------
-walk.up                         7.6 µs       132,100 (  7.3 µs … 224.8 µs)   7.5 µs   8.5 µs   9.3 µs
+empathic/walk.up                8.1 µs       122,900 (  7.9 µs …  60.3 µs)   8.1 µs   8.8 µs  10.3 µs
 ```
