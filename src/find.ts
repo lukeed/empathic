@@ -1,5 +1,5 @@
 import { join } from 'node:path';
-import { existsSync } from 'node:fs';
+import { existsSync, statSync } from 'node:fs';
 
 import * as walk from 'empathic/walk';
 import type { Options } from 'empathic/walk';
@@ -37,6 +37,52 @@ export function any(names: string[], options?: Options): string | undefined {
 		for (j = 0; j < len; j++) {
 			tmp = join(dir, names[j]);
 			if (existsSync(tmp)) return tmp;
+		}
+	}
+}
+
+/**
+ * Find a file by name, walking parent directories until found.
+ *
+ * > [NOTE]
+ * > This function only returns a value for file matches.
+ * > A directory match with the same name will be ignored.
+ *
+ * @param name The file name to find.
+ * @returns The absolute path to the file, if found.
+ */
+export function file(name: string, options?: Options): string | undefined {
+	let dir: string, tmp: string;
+	let start = options && options.cwd || '';
+	for (dir of walk.up(start, options)) {
+		try {
+			tmp = join(dir, name);
+			if (statSync(tmp).isFile()) return tmp;
+		} catch {
+			// ignore
+		}
+	}
+}
+
+/**
+ * Find a directory by name, walking parent directories until found.
+ *
+ * > [NOTE]
+ * > This function only returns a value for directory matches.
+ * > A file match with the same name will be ignored.
+ *
+ * @param name The directory name to find.
+ * @returns The absolute path to the file, if found.
+ */
+export function dir(name: string, options?: Options): string | undefined {
+	let dir: string, tmp: string;
+	let start = options && options.cwd || '';
+	for (dir of walk.up(start, options)) {
+		try {
+			tmp = join(dir, name);
+			if (statSync(tmp).isDirectory()) return tmp;
+		} catch {
+			// ignore
 		}
 	}
 }

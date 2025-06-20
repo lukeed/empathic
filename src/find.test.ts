@@ -93,3 +93,87 @@ describe('find.any', (it) => {
 		assert.is(output, undefined);
 	});
 });
+
+describe('find.file', (it) => {
+	it('should be a function', () => {
+		assert.type(find.file, 'function');
+	});
+
+	it('should looking in current (cwd) directory', () => {
+		let output = find.file('license');
+		assert.is(output, resolve('license'));
+	});
+
+	it('should use `options.cwd` directory', () => {
+		let output = find.file('file.txt', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
+	});
+
+	it('should stop after `options.last` directory', () => {
+		let output = find.file('file.txt', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			last: join(fixtures, 'a/b/c/d/e/f/g'),
+		});
+		assert.is(output, undefined);
+	});
+
+	it('should still search `options.last` directory', () => {
+		let output = find.file('file.txt', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			last: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
+	});
+
+	it('should ignore directory with matching name', () => {
+		let output = find.file('e', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+		});
+		assert.is(output, undefined);
+	});
+});
+
+describe('find.dir', (it) => {
+	it('should be a function', () => {
+		assert.type(find.dir, 'function');
+	});
+
+	it('should looking in current (cwd) directory', () => {
+		let output = find.dir('src');
+		assert.is(output, resolve('src'));
+	});
+
+	it('should use `options.cwd` directory', () => {
+		let output = find.dir('f', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f'));
+	});
+
+	// there is NO "g" directory inside the "fixtures/.../g" dir
+	it('should stop after `options.last` directory', () => {
+		let output = find.dir('g', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			last: join(fixtures, 'a/b/c/d/e/f/g'),
+		});
+		assert.is(output, undefined);
+	});
+
+	// there IS a "g" directory inside the "fixtures/.../f" dir
+	it('should still search `options.last` directory', () => {
+		let output = find.dir('g', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			last: join(fixtures, 'a/b/c/d/e/f'),
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f/g'));
+	});
+
+	it('should ignore file with matching name', () => {
+		let output = find.dir('file.txt', {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+		});
+		assert.is(output, undefined);
+	});
+});
