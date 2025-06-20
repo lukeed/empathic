@@ -20,7 +20,7 @@ export type Options = {
 
 /**
  * Get all parent directories of {@link base}.
- * Stops after {@link Options['last']} is seen.
+ * Stops after {@link Options['last']} is processed.
  *
  * @returns An array of absolute paths of all parent directories.
  */

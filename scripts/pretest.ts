@@ -2,7 +2,7 @@ import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { cp, readdir } from 'node:fs/promises';
 
-import oxc from 'npm:oxc-transform@^0.66';
+import oxc from 'npm:oxc-transform@0.73.2';
 
 // Transform all the test files
 // NOTE: must be w/ `build` for tests to work~!

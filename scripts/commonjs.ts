@@ -1,5 +1,5 @@
 import MagicString from 'npm:magic-string@0.30.17';
-import { type Function, parseSync } from 'npm:oxc-parser@0.67.0';
+import { type Function, parseSync } from 'npm:oxc-parser@0.73.2';
 import { walk } from 'npm:astray@1.1.1';
 
 type Location = {

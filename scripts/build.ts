@@ -6,8 +6,8 @@
 import { existsSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 
-import oxc from 'npm:oxc-transform@0.67.0';
-import { minify } from 'npm:oxc-minify@0.67.0';
+import oxc from 'npm:oxc-transform@0.73.2';
+import { minify } from 'npm:oxc-minify@0.73.2';
 import * as CommonJS from './commonjs.ts';
 
 const Quiet = Deno.args.includes('--quiet');
