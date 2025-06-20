@@ -141,8 +141,8 @@ describe('find.dir', (it) => {
 	});
 
 	it('should looking in current (cwd) directory', () => {
-		let output = find.dir('src');
-		assert.is(output, resolve('src'));
+		let output = find.dir('fixtures');
+		assert.is(output, resolve('fixtures'));
 	});
 
 	it('should use `options.cwd` directory', () => {
