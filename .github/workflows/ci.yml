@@ -9,7 +9,7 @@ on:
       - 'v**'
 
 env:
-  DENO_VERSION: 2.2
+  DENO_VERSION: 2.3
 
 jobs:
   health:
@@ -84,7 +84,7 @@ jobs:
         run: deno task fixtures 12
 
       - name: Run Benchmark
-        run: deno bench --allow-read --no-check
+        run: deno bench -RE --no-check
 
   # https://jsr.io/docs/publishing-packages#publishing-from-github-actions
   # https://docs.github.com/en/actions/publishing-packages/publishing-nodejs-packages#publishing-packages-to-the-npm-registry
