@@ -13,6 +13,8 @@ function describe(name: string, builder: Builder) {
 const fixtures = resolve('fixtures');
 
 describe('find.up', (it) => {
+	let target = join(fixtures, 'a/b/c/d/e/f/file.txt');
+
 	it('should be a function', () => {
 		assert.type(find.up, 'function');
 	});
@@ -27,23 +29,23 @@ describe('find.up', (it) => {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
 		});
 
-		assert.is(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
+		assert.is(output, target);
 	});
 
-	it('should stop at `options.stop` directory', () => {
+	it('should stop after `options.last` directory', () => {
 		let output = find.up('file.txt', {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			stop: join(fixtures, 'a/b/c/d/e/f/g'),
+			last: join(fixtures, 'a/b/c/d/e/f/g'),
 		});
 		assert.is(output, undefined);
 	});
 
-	it('should NOT process `options.stop` directory', () => {
+	it('should still search `options.last` directory', () => {
 		let output = find.up('file.txt', {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			stop: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+			last: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
 		});
-		assert.is(output, undefined);
+		assert.is(output, target);
 	});
 });
 
@@ -75,10 +77,18 @@ describe('find.any', (it) => {
 		assert.is(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
 	});
 
-	it('should NOT process `options.stop` directory', () => {
+	it('should still search `options.last` directory', () => {
 		let output = find.any(['file.txt'], {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			stop: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+			last: join(fixtures, 'a/b/c/d/e/f'), // < file.txt is here
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
+	});
+
+	it('should stop after `options.last` directory', () => {
+		let output = find.any(['file.txt'], {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			last: join(fixtures, 'a/b/c/d/e/f/g'),
 		});
 		assert.is(output, undefined);
 	});

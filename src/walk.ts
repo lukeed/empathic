@@ -8,31 +8,30 @@ export type Options = {
 	 */
 	cwd?: string;
 	/**
-	 * The directory to stop at.
+	 * The last directory to traverse.
 	 *
 	 * > [NOTE]
-	 * > This directory WILL NOT be included in the results.
+	 * > This directory is INCLUSIVE.
 	 *
-	 * @default <none> (continue to system root)
+	 * @default "/"
 	 */
-	stop?: string;
+	last?: string;
 };
 
 /**
  * Get all parent directories of {@link base}.
- * Stops at {@link Options['stop']} else system root ("/").
+ * Stops after {@link Options['last']} is seen.
  *
  * @returns An array of absolute paths of all parent directories.
  */
 export function up(base: string, options?: Options): string[] {
-	let { stop, cwd } = options || {};
+	let { last, cwd } = options || {};
 
-	let tmp = absolute(base, cwd), root = !stop;
-	let prev: string, arr: string[] = [];
+	let tmp = absolute(base, cwd);
+	let root = absolute(last || '/', cwd);
+	let prev: string | undefined, arr: string[] = [];
 
-	if (stop) stop = absolute(stop, cwd);
-
-	while (root || tmp !== stop) {
+	while (prev !== root) {
 		arr.push(tmp);
 		tmp = dirname(prev = tmp);
 		if (tmp === prev) break;

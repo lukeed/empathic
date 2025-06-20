@@ -35,7 +35,7 @@ describe('walk.up', (it) => {
 		assert.is(parents[0], resolve('fixtures/a/b/c'));
 	});
 
-	it('should return all parents until "/" root', () => {
+	it('should return all parents until "/" root (default)', () => {
 		assert.is(parents[0], resolve('fixtures/a/b/c'));
 		assert.is(parents[1], resolve('fixtures/a/b'));
 		assert.is(parents[2], resolve('fixtures/a'));
@@ -45,7 +45,7 @@ describe('walk.up', (it) => {
 		assert.is(parents[parents.length - 1], resolve('/'));
 	});
 
-	it('should resolve from `options.cwd` if input not absolute', () => {
+	it('should resolve from `options.cwd` if input is not absolute', () => {
 		let output = walk.up('a/b/c', {
 			cwd: fixtures,
 		});
@@ -53,34 +53,34 @@ describe('walk.up', (it) => {
 		assert.equal(output, parents);
 	});
 
-	it('should stop at `options.stop` directory', () => {
+	it('should stop after `options.last` directory', () => {
 		let output = walk.up('fixtures/a/b/c', {
-			stop: fixtures,
+			last: fixtures,
 		});
 
 		assert.ok(parents.length > output.length);
 	});
 
-	it('should NOT include `options.stop` directory', () => {
+	it('should include `options.last` directory', () => {
 		let output = walk.up('fixtures/a/b/c', {
-			stop: fixtures,
+			last: fixtures,
 		});
 
-		assert.is(output[output.length - 1], join(fixtures, 'a'));
+		assert.is(output[output.length - 1], fixtures);
 	});
 
-	it('should return nothing if stop === start', () => {
+	it('should only have 1 entry if started at `options.last` directory', () => {
 		let start = resolve('fixtures/a/b/c');
-		let output = walk.up(start, { stop: start });
-		assert.is(output.length, 0);
+		let output = walk.up(start, { last: start });
+		assert.is(output.length, 1);
 	});
 
 	// find-up/locate-paths cycle in infinite loop
-	it('should still exit at root if stop is child of start', () => {
+	it('should still exit at root if `options.last` is a subdir of start', () => {
 		let start = resolve('fixtures/a/b/c');
-		let stop = join(start, 'd/e/f');
+		let last = join(start, 'd/e/f');
 
-		let output = walk.up(start, { stop });
+		let output = walk.up(start, { last });
 
 		assert.is(output[0], resolve('fixtures/a/b/c'));
 		assert.is(output[1], resolve('fixtures/a/b'));

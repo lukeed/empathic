@@ -2,7 +2,7 @@ import * as assert from 'uvu/assert';
 import { suite, type Test } from 'uvu';
 
 import { env } from 'node:process';
-import { dirname, join, resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 
 import * as pkg from 'empathic/package';
 
@@ -36,14 +36,24 @@ describe('package.up', (it) => {
 		assert.is(output, pkgfile);
 	});
 
-	it('should stop resolving at `options.stop` directory', () => {
+	it('should stop resolving after `options.last` directory', () => {
 		let output = pkg.up({
 			cwd: resolve('fixtures/a/b/c/d/e/f/g/h/i/j'),
-			stop: resolve('fixtures/a/b/c/d/e/f'),
+			last: resolve('fixtures/a/b/c/d/e/f'),
 		});
 
 		// see scripts/fixture.ts
 		assert.is(output, undefined);
+	});
+
+	it('should still search `options.last` directory', () => {
+		let output = pkg.up({
+			cwd: resolve('fixtures/a/b/c/d/e/f/g/h/i/j'),
+			last: resolve('fixtures/a/b'),
+		});
+
+		// see scripts/fixture.ts
+		assert.is(output, pkgfile);
 	});
 });
 
@@ -64,10 +74,20 @@ describe('package.cache', (it) => {
 		assert.is(output, expect);
 	});
 
-	it('should NOT look at/beyond `options.stop` directory', () => {
+	it('should still search `options.last` directory', () => {
 		let output = pkg.cache('foobar', {
 			cwd: start,
-			stop: dirname(pkgfile),
+			last: resolve('fixtures/a/b'),
+		});
+
+		let expect = resolve(pkgfile, '../node_modules/.cache/foobar');
+		assert.is(output, expect);
+	});
+
+	it('should stop after `options.last` directory', () => {
+		let output = pkg.cache('foobar', {
+			cwd: start,
+			last: resolve('fixtures/a/b/c'),
 		});
 
 		assert.is(output, undefined);
