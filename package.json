@@ -11,27 +11,22 @@
 	},
 	"exports": {
 		"./access": {
-			"types": "./access.d.ts",
 			"import": "./access.mjs",
 			"require": "./access.js"
 		},
 		"./find": {
-			"types": "./find.d.ts",
 			"import": "./find.mjs",
 			"require": "./find.js"
 		},
 		"./package": {
-			"types": "./package.d.ts",
 			"import": "./package.mjs",
 			"require": "./package.js"
 		},
 		"./resolve": {
-			"types": "./resolve.d.ts",
 			"import": "./resolve.mjs",
 			"require": "./resolve.js"
 		},
 		"./walk": {
-			"types": "./walk.d.ts",
 			"import": "./walk.mjs",
 			"require": "./walk.js"
 		},
