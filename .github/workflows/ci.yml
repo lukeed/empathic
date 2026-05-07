@@ -103,7 +103,7 @@ jobs:
           deno-version: ${{ env.DENO_VERSION }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
 
       - name: Build
@@ -117,12 +117,8 @@ jobs:
         if: ${{ !contains(github.ref, '-next.') }}
         run: npm publish --provenance --access public
         working-directory: ./npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: 'Publish → npm (pre-release)'
         if: ${{ contains(github.ref, '-next.') }}
         run: npm publish --tag next --provenance --access public
         working-directory: ./npm
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
