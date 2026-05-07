@@ -103,12 +103,9 @@ jobs:
           deno-version: ${{ env.DENO_VERSION }}
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           registry-url: 'https://registry.npmjs.org'
-
-      - name: Install latest npm
-        run: npm install -g npm@latest
-
+          
       - name: Build
         run: deno task build --quiet
 
