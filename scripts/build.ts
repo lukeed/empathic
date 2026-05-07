@@ -62,11 +62,16 @@ async function transform(filename: string) {
 	let rgx = /\.tsx?$/;
 	let cjs = filename.replace(rgx, '.js');
 	let esm = filename.replace(rgx, '.mjs');
-	let dts = filename.replace(rgx, '.d.ts');
+	let dtsCjs = filename.replace(rgx, '.d.ts');
+	let dtsEsm = filename.replace(rgx, '.d.mts');
 
-	let outfile = join(outdir, dts);
-	log('> writing "%s" file', dts);
+	let outfile = join(outdir, dtsCjs);
+	log('> writing "%s" file', dtsCjs);
 	await Deno.writeTextFile(outfile, xform.declaration!);
+
+	outfile = join(outdir, dtsEsm);
+	log('> writing "%s" file', dtsEsm);
+	await Deno.writeTextFile(outfile, `export * from './${cjs}';\n`);
 
 	outfile = join(outdir, esm);
 	log('> writing "%s" file', esm);
