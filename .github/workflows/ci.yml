@@ -105,7 +105,7 @@ jobs:
         with:
           node-version: 24
           registry-url: 'https://registry.npmjs.org'
-          
+
       - name: Build
         run: deno task build --quiet
 
