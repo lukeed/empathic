@@ -7,14 +7,6 @@ import type { Options } from 'empathic/walk';
 
 export type { Options };
 
-export type AnyOptions = Options & {
-	/**
-	 * Only match items of this kind.
-	 * When omitted, any existing item matches.
-	 */
-	type?: 'file' | 'dir';
-};
-
 /**
  * Find an item by name, walking parent directories until found.
  *
@@ -43,7 +35,10 @@ export function up(name: string, options?: Options): string | undefined {
  * @param names The item names to find.
  * @returns The absolute path of the first item found, if any.
  */
-export function any(names: string[], options?: AnyOptions): string | undefined {
+export function any(
+	names: string[],
+	options?: Options & { type?: 'file' | 'dir' },
+): string | undefined {
 	let dir: string, start = options && options.cwd || '';
 	let j = 0, len = names.length, tmp: string, stats: Stats;
 	let type = options?.type, kind = type ? (type === 'dir' ? 1 : -1) : 0;
