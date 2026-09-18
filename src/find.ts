@@ -45,20 +45,20 @@ export function up(name: string, options?: Options): string | undefined {
  */
 export function any(names: string[], options?: AnyOptions): string | undefined {
 	let dir: string, start = options && options.cwd || '';
-	let j = 0, len = names.length, tmp: string;
-	let type = options && options.type, stats: Stats;
+	let j = 0, len = names.length, tmp: string, stats: Stats;
+	let type = options?.type, kind = type ? (type === 'dir' ? 1 : -1) : 0;
 	for (dir of walk.up(start, options)) {
 		for (j = 0; j < len; j++) {
 			tmp = join(dir, names[j]);
-			if (!type) {
-				if (existsSync(tmp)) return tmp;
-			} else {
+			if (kind) {
 				try {
 					stats = statSync(tmp);
-					if (type === 'file' ? stats.isFile() : stats.isDirectory()) return tmp;
+					if (kind === 1 ? stats.isDirectory() : stats.isFile()) return tmp;
 				} catch {
 					// ignore
 				}
+			} else if (existsSync(tmp)) {
+				return tmp;
 			}
 		}
 	}

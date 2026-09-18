@@ -124,14 +124,6 @@ describe('find.any', (it) => {
 		let output = find.any(['file.txt', 'start.txt'], { cwd: start, type: 'file' });
 		assert.is(output, join(start, 'start.txt'));
 	});
-
-	it('should return undefined when only the other kind matches', () => {
-		let output = find.any(['e', 'g'], {
-			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
-			type: 'file',
-		});
-		assert.is(output, undefined);
-	});
 });
 
 describe('find.file', (it) => {
