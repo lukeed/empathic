@@ -33,7 +33,7 @@ export function up(name: string, options?: Options): string | undefined {
  */
 export function any(
 	names: string[],
-	options?: Options & { 
+	options?: Options & {
 		/**
 		 * Only match items of this kind.
 		 * When omitted, any existing item matches.
