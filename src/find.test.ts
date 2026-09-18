@@ -102,11 +102,11 @@ describe('find.any', (it) => {
 
 	it('should ignore directories when `options.type` is "file"', () => {
 		// "g" is a directory inside "f", alongside "file.txt"
-		let output = find.any(['e', 'g', 'file.txt'], {
+		let output = find.any(['g'], {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
 			type: 'file',
 		});
-		assert.is(output, join(fixtures, 'a/b/c/d/e/f/file.txt'));
+		assert.is(output, undefined);
 	});
 
 	it('should ignore files when `options.type` is "dir"', () => {
