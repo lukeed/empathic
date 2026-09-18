@@ -1,10 +1,19 @@
 import { join } from 'node:path';
 import { existsSync, statSync } from 'node:fs';
+import type { Stats } from 'node:fs';
 
 import * as walk from 'empathic/walk';
 import type { Options } from 'empathic/walk';
 
 export type { Options };
+
+export type AnyOptions = Options & {
+	/**
+	 * Only match items of this kind.
+	 * When omitted, any existing item matches.
+	 */
+	type?: 'file' | 'dir';
+};
 
 /**
  * Find an item by name, walking parent directories until found.
@@ -27,16 +36,30 @@ export function up(name: string, options?: Options): string | undefined {
  * > [NOTE]
  * > The order of {@link names} is respected.
  *
+ * > [NOTE]
+ * > When `options.type` is set, only a file (or directory) match
+ * > is returned. An item of the other kind with a matching name is ignored.
+ *
  * @param names The item names to find.
  * @returns The absolute path of the first item found, if any.
  */
-export function any(names: string[], options?: Options): string | undefined {
+export function any(names: string[], options?: AnyOptions): string | undefined {
 	let dir: string, start = options && options.cwd || '';
 	let j = 0, len = names.length, tmp: string;
+	let type = options && options.type, stats: Stats;
 	for (dir of walk.up(start, options)) {
 		for (j = 0; j < len; j++) {
 			tmp = join(dir, names[j]);
-			if (existsSync(tmp)) return tmp;
+			if (!type) {
+				if (existsSync(tmp)) return tmp;
+			} else {
+				try {
+					stats = statSync(tmp);
+					if (type === 'file' ? stats.isFile() : stats.isDirectory()) return tmp;
+				} catch {
+					// ignore
+				}
+			}
 		}
 	}
 }
