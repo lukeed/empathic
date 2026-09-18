@@ -28,16 +28,18 @@ export function up(name: string, options?: Options): string | undefined {
  * > [NOTE]
  * > The order of {@link names} is respected.
  *
- * > [NOTE]
- * > When `options.type` is set, only a file (or directory) match
- * > is returned. An item of the other kind with a matching name is ignored.
- *
  * @param names The item names to find.
  * @returns The absolute path of the first item found, if any.
  */
 export function any(
 	names: string[],
-	options?: Options & { type?: 'file' | 'dir' },
+	options?: Options & { 
+		/**
+		 * Only match items of this kind.
+		 * When omitted, any existing item matches.
+		 */
+		type?: 'file' | 'dir';
+	},
 ): string | undefined {
 	let dir: string, start = options && options.cwd || '';
 	let j = 0, len = names.length, tmp: string, stats: Stats;
