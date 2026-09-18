@@ -93,7 +93,7 @@ describe('find.any', (it) => {
 		assert.is(output, undefined);
 	});
 
-	it('should match a directory by default', () => {
+	it('should allow first match to be a directory', () => {
 		let output = find.any(['g'], {
 			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
 		});
