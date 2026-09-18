@@ -1,5 +1,6 @@
 import { join } from 'node:path';
 import { existsSync, statSync } from 'node:fs';
+import type { Stats } from 'node:fs';
 
 import * as walk from 'empathic/walk';
 import type { Options } from 'empathic/walk';
@@ -30,13 +31,32 @@ export function up(name: string, options?: Options): string | undefined {
  * @param names The item names to find.
  * @returns The absolute path of the first item found, if any.
  */
-export function any(names: string[], options?: Options): string | undefined {
+export function any(
+	names: string[],
+	options?: Options & {
+		/**
+		 * Only match items of this kind.
+		 * When omitted, any existing item matches.
+		 */
+		type?: 'file' | 'dir';
+	},
+): string | undefined {
 	let dir: string, start = options && options.cwd || '';
-	let j = 0, len = names.length, tmp: string;
+	let j = 0, len = names.length, tmp: string, stats: Stats;
+	let type = options?.type, kind = type ? (type === 'dir' ? 1 : -1) : 0;
 	for (dir of walk.up(start, options)) {
 		for (j = 0; j < len; j++) {
 			tmp = join(dir, names[j]);
-			if (existsSync(tmp)) return tmp;
+			if (kind) {
+				try {
+					stats = statSync(tmp);
+					if (kind === 1 ? stats.isDirectory() : stats.isFile()) return tmp;
+				} catch {
+					// ignore
+				}
+			} else if (existsSync(tmp)) {
+				return tmp;
+			}
 		}
 	}
 }

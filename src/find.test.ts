@@ -92,6 +92,38 @@ describe('find.any', (it) => {
 		});
 		assert.is(output, undefined);
 	});
+
+	it('should allow first match to be a directory', () => {
+		let output = find.any(['g'], {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f/g'));
+	});
+
+	it('should ignore directories when `options.type` is "file"', () => {
+		// "g" is a directory inside "f", alongside "file.txt"
+		let output = find.any(['g'], {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			type: 'file',
+		});
+		assert.is(output, undefined);
+	});
+
+	it('should ignore files when `options.type` is "dir"', () => {
+		// "file.txt" is a file inside "f", alongside the "g" directory
+		let output = find.any(['file.txt', 'g'], {
+			cwd: join(fixtures, 'a/b/c/d/e/f/g/h/i/j'),
+			type: 'dir',
+		});
+		assert.is(output, join(fixtures, 'a/b/c/d/e/f/g'));
+	});
+
+	it('should prefer the nearest directory over the input order with `options.type`', () => {
+		// "file.txt" is listed first, but "start.txt" is nearer
+		let start = join(fixtures, 'a/b/c/d/e/f/g/h/i/j');
+		let output = find.any(['file.txt', 'start.txt'], { cwd: start, type: 'file' });
+		assert.is(output, join(start, 'start.txt'));
+	});
 });
 
 describe('find.file', (it) => {
